@@ -27,7 +27,7 @@ body, html {
 
 /* Style untuk logo */
 .logo img {
-    width: 48px; /* Sesuaikan dengan ukuran logo Anda */
+    width: 64px; /* Sesuaikan dengan ukuran logo Anda */
     height: auto; /* Biarkan tinggi disesuaikan dengan lebar */
 }
 
