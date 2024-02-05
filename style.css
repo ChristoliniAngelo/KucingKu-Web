@@ -153,7 +153,7 @@ body, html {
     width: 287px;
     height: 74px;
     flex-shrink: 0;
-    background: #D9D9D9;
+    background: white;
     backdrop-filter: blur(359.5px);
     color: orange;
     text-align: center;
@@ -170,7 +170,8 @@ body, html {
 }
 
 .content-button:hover {
-    background-color: rgba(104, 44, 14, 0.8); /* Mengubah warna latar belakang saat hover */
+    background-color: orange; /* Mengubah warna latar belakang saat hover */
+    color: white;
 }
 
 .content-button:active {
@@ -179,10 +180,16 @@ body, html {
 
 .footer {
     /* Gaya untuk footer */
+    justify-content: space-between;
+    width: 231px;
     background-color:transparent; /* Warna latar belakang transparan dengan opasitas 50% */
-    color: white; /* Warna teks putih */
-    padding: 20px; /* Ruang dalam footer */
-    text-align:right; /* Pusatkan teks */
+    padding: 20px;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* Ruang dalam footer */
+    text-align: right; /* Pusatkan teks */
     position: fixed; /* Footer akan tetap di bagian bawah layar */
     width: 100%; /* Lebar footer sesuai dengan lebar layar */
     bottom: 0; /* Letakkan footer di bagian bawah */
@@ -190,5 +197,6 @@ body, html {
 }
 
 .footer-text {
-    color: black; /* Warna teks hitam */
+    color: white; /* Warna teks hitam */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
