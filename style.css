@@ -176,3 +176,19 @@ body, html {
 .content-button:active {
     transform: translateY(2px); /* Memberikan efek tekan ke bawah saat tombol ditekan */
 }
+
+.footer {
+    /* Gaya untuk footer */
+    background-color:transparent; /* Warna latar belakang transparan dengan opasitas 50% */
+    color: white; /* Warna teks putih */
+    padding: 20px; /* Ruang dalam footer */
+    text-align:right; /* Pusatkan teks */
+    position: fixed; /* Footer akan tetap di bagian bawah layar */
+    width: 100%; /* Lebar footer sesuai dengan lebar layar */
+    bottom: 0; /* Letakkan footer di bagian bawah */
+
+}
+
+.footer-text {
+    color: black; /* Warna teks hitam */
+}
