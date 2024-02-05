@@ -12,12 +12,17 @@ body, html {
 
 /* Style untuk header */
 .header {
-    background-color: rgba(0, 0, 0, 0.5); /* Warna latar belakang dengan opasitas 50% */
+    background-color: transparent; /* Latar belakang transparan */
     color: white;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Mengatur z-index untuk memastikan header di atas konten lain */
 }
 
 /* Style untuk logo */
@@ -43,7 +48,7 @@ body, html {
 }
 
 .menu ul li a {
-    color: rgb(231, 188, 46);
+    color: white;
     text-decoration: none;
     font-weight: bold;
     font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
@@ -54,7 +59,7 @@ body, html {
 /* Style untuk tombol */
 .button {
     background-color: white; /* Mengubah latar belakang tombol menjadi putih */
-    border: 2px solid white;
+    border: 5px solid white;
     color: orange; /* Mengubah warna teks menjadi orange */
     padding: 10px 20px;
     border-radius: 5px;
@@ -135,11 +140,12 @@ body, html {
 
 /* Gaya untuk elemen dengan kelas .content-description */
 .content-description {
-    color: rgba(0, 0, 0, 0.46);
+    color: rgba(0, 0, 0);
     font-family: Poppins;
     font-size: 20px;
+    font-weight: 400;
     line-height: 1.5; /* Sesuaikan sesuai kebutuhan */
-    margin-bottom: 20px; /* Tambahkan jarak ke bawah */
+    margin-bottom: 30px; /* Tambahkan jarak ke bawah */
 }
 
 /* Gaya untuk elemen dengan kelas .content-button */
@@ -170,4 +176,3 @@ body, html {
 .content-button:active {
     transform: translateY(2px); /* Memberikan efek tekan ke bawah saat tombol ditekan */
 }
-
