@@ -1,0 +1,173 @@
+/* Gaya untuk semua elemen */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden; /* Menghilangkan scrolling pada body dan html */
+}
+
+/* Style untuk header */
+.header {
+    background-color: rgba(0, 0, 0, 0.5); /* Warna latar belakang dengan opasitas 50% */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style untuk logo */
+.logo img {
+    width: 48px; /* Sesuaikan dengan ukuran logo Anda */
+    height: auto; /* Biarkan tinggi disesuaikan dengan lebar */
+}
+
+/* Style untuk menu */
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.menu ul li {
+    margin-right: 20px;
+}
+
+.menu ul li:last-child {
+    margin-right: 0;
+}
+
+.menu ul li a {
+    color: rgb(231, 188, 46);
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Style untuk tombol */
+.button {
+    background-color: white; /* Mengubah latar belakang tombol menjadi putih */
+    border: 2px solid white;
+    color: orange; /* Mengubah warna teks menjadi orange */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;  
+    position: relative; /* Menetapkan posisi relatif untuk animasi */
+    overflow: hidden; /* Mengatur area latar belakang sesuai konten */
+}
+
+.button:hover {
+    background-color: white;
+    color: black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.button:active {
+    transform: scale(0.95); /* Mengubah skala tombol saat ditekan */
+}
+
+/* Efek animasi saat tombol ditekan */
+.button:active::after {
+    content: '';
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.3);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    animation: ripple 0.4s linear;
+    border-radius: 5px;
+}
+
+@keyframes ripple {
+    from {
+        transform: scale(0);
+        opacity: 0.4;
+    }
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Gaya untuk elemen dengan kelas .main */
+/* Gaya untuk elemen utama (main) */
+.main {
+    background-image: url('properties/gambar/Background.png');
+    background-size: cover;
+    background-position: center;
+    height: 100%; /* Menyesuaikan tinggi elemen utama dengan tinggi layar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Gaya untuk elemen dengan kelas .content-container */
+.content-container {
+    max-width: 800px; /* Menyesuaikan lebar konten */
+    text-align: center; /* Pusatkan konten */
+    padding: 20px; /* Tambahkan ruang di sekitar konten */
+}
+
+/* Gaya untuk elemen dengan kelas .content-title */
+.content-title {
+    color: #ffffff;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: Inter;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2; /* Sesuaikan sesuai kebutuhan */
+    margin-bottom: 20px; /* Tambahkan jarak ke bawah */
+}
+
+/* Gaya untuk elemen dengan kelas .content-description */
+.content-description {
+    color: rgba(0, 0, 0, 0.46);
+    font-family: Poppins;
+    font-size: 20px;
+    line-height: 1.5; /* Sesuaikan sesuai kebutuhan */
+    margin-bottom: 20px; /* Tambahkan jarak ke bawah */
+}
+
+/* Gaya untuk elemen dengan kelas .content-button */
+.content-button {
+    width: 287px;
+    height: 74px;
+    flex-shrink: 0;
+    background: #D9D9D9;
+    backdrop-filter: blur(359.5px);
+    color: orange;
+    text-align: center;
+    line-height: 44px; /* Memberikan efek vertikal tengah */
+    text-decoration: none; /* Hilangkan dekorasi teks default */
+    font-weight: bold;
+    border-radius: 36px;
+    display: inline-block; /* Menjadikan tombol sebagai inline block */
+    padding: 10px 20px; /* Atur padding untuk memberikan ruang di sekitar teks */
+    font-family: 'Open Sans', sans-serif; /* Gunakan font Latin */
+    font-size: 28px;
+    transition: all 0.3s ease; /* Animasi saat hover */
+    cursor: pointer;
+}
+
+.content-button:hover {
+    background-color: rgba(104, 44, 14, 0.8); /* Mengubah warna latar belakang saat hover */
+}
+
+.content-button:active {
+    transform: translateY(2px); /* Memberikan efek tekan ke bawah saat tombol ditekan */
+}
+
