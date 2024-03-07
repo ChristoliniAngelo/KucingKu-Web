@@ -1,8 +1,8 @@
-/* Style untuk tombol */
+
 .button {
-    background-color: white; /* Mengubah latar belakang tombol menjadi putih */
+    background-color: white; 
     border: 5px solid white;
-    color: orange; /* Mengubah warna teks menjadi orange */
+    color: orange; 
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
@@ -11,8 +11,8 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;  
-    position: relative; /* Menetapkan posisi relatif untuk animasi */
-    overflow: hidden; /* Mengatur area latar belakang sesuai konten */
+    position: relative; 
+    overflow: hidden; 
 }
 
 .button:hover {
@@ -22,10 +22,9 @@
 }
 
 .button:active {
-    transform: scale(0.95); /* Mengubah skala tombol saat ditekan */
+    transform: scale(0.95); 
 }
 
-/* Efek animasi saat tombol ditekan */
 .button:active::after {
     content: '';
     position: absolute;
