@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shC1n5wn5URtKPhsBj+ea1E80SSf1EG2ziz+8" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">User Data</h1>
+        <form action="proses.php" method="POST">
+            <div class="mb-3">
+                <label for="nama" class="form-label">Nama:</label>
+                <input type="text" class="form-control" id="nama" name="nama">
+            </div>
+            <div class="mb-3">
+                <label for="umur" class="form-label">Umur:</label>
+                <input type="number" class="form-control" id="umur" name="umur">
+            </div>
+            <div class="mb-3">
+                <label for="lokasi" class="form-label">Lokasi Tempat Tinggal:</label>
+                <select class="form-select" id="lokasi" name="lokasi">
+                    <option value="Surabaya">Surabaya</option>
+                    <option value="Sidoarjo">Sidoarjo</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Kirim</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrR+y6A7GqQJSK3gNXtB8HDkUEfzx7hTN4zr5iqNTnrJw5YhXQKfl5clgOP6yLr6" crossorigin="anonymous"></script>
+</body>
+</html>

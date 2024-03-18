@@ -13,3 +13,11 @@ function playSound() {
 startButton.addEventListener('click', function() {
     playSound();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const contentButton = document.querySelector('.content-button');
+    
+    contentButton.addEventListener('click', function() {
+        window.location.href = 'Isi_data_user.html';
+    });
+});
