@@ -90,6 +90,10 @@ body {
     background-color: orange;
     border-color: orange;
     color: white;
+    padding: 0.7rem 1.5rem; 
+    font-size: 1.2rem; 
+    border-radius: 0.5rem; 
+    transition: all 0.3s ease; 
 }
 
 .btn-orange:hover {
@@ -100,9 +104,10 @@ body {
 
 .btn-lg {
     padding: 0.5rem 1rem;
-    font-size: 1.25rem;
-    border-radius: 4rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
 }
+
 
 .text-center {
     text-align: center;
