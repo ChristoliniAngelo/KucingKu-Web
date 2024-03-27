@@ -9,7 +9,6 @@ body, html {
     overflow: hidden;
 }
 
-
 .header {
     background-color: transparent; 
     color: white;
@@ -63,7 +62,7 @@ body, html {
 }
 
 .main {
-    background-image: url('properties/gambar/Background.png');
+    background-image: url('https://raw.githubusercontent.com/ChristoliniAngelo/KucingKu-Web/49c2503efd74a095de6781eae4e5fd79b436851b/properties/gambar/Background.png');
     background-size: cover;
     background-position: center;
     height: 100%; 
@@ -71,6 +70,7 @@ body, html {
     justify-content: center;
     align-items: center;
 }
+
 
 
 .content-container {
