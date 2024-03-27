@@ -1,7 +1,7 @@
 var startButton = document.querySelector('.content-button');
 
 function playSound() {
-    var audio = new Audio('properties/suara/shari_meow-47485.mp3'); // path audio
+    var audio = new Audio('https://raw.githubusercontent.com/ChristoliniAngelo/KucingKu-Web/b64752e3f95645fe2ab4464ac8c58ab95ada8f47/properties/suara/shari_meow-47485.mp3'); // path audio
     audio.play();
 
     setTimeout(function() {

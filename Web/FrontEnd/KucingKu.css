@@ -71,14 +71,11 @@ body, html {
     align-items: center;
 }
 
-
-
 .content-container {
     max-width: 800px;
     text-align: center;
     padding: 20px; 
 }
-
 
 .content-title {
     color: #ffffff;
@@ -90,7 +87,6 @@ body, html {
     margin-bottom: 20px; 
 }
 
-
 .content-description {
     color: rgba(0, 0, 0);
     font-family: Poppins;
@@ -99,7 +95,6 @@ body, html {
     line-height: 1.5; 
     margin-bottom: 30px; 
 }
-
 
 .content-button {
     width: 287px;

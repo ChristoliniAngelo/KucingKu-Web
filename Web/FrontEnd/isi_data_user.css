@@ -11,8 +11,12 @@ body, html {
 
 body {
     background-image: url('https://raw.githubusercontent.com/ChristoliniAngelo/KucingKu-Web/49c2503efd74a095de6781eae4e5fd79b436851b/properties/gambar/Background.png');
-    background-size: cover; 
-    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .header {
@@ -75,7 +79,7 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     padding: 40px;
-    margin-top: 100px;
+    margin-top: 40px;
     width: 70%; 
     max-width: 600px;
     margin-left: auto; 
@@ -106,4 +110,9 @@ body {
 
 .margin-top-kirim {
     margin-top: 20px;
+}
+
+.margin-top-20 .btn {
+    justify-content: space-between;
+    margin-right: 10px;
 }
