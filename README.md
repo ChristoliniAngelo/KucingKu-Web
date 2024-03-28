@@ -43,7 +43,7 @@ We welcome contributions from the community! Feel free to fork this repository, 
 ## Contact
 If you have any questions or suggestions regarding this project, feel free to contact us at:
 - [christoliniangelo@gmail.com](mailto:christoliniangelo@gmail.com)
-[Discord: holyarchangel](https://discord.com/users/526421201342562306)
+- [Discord: holyarchangel](https://discord.com/users/526421201342562306)
 
 Thank you for choosing KucingKu Web for your cat adoption journey! 🐾🏠
 
