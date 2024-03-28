@@ -30,7 +30,8 @@ KucingKu Web is a platform designed for cat adoption, infused with a touch of Ma
 
 ## Setup Instructions
 1. **Clone the Repository:** 
-git clone https://github.com/yourusername/kucingku-web.git
+
+     git clone https://github.com/yourusername/kucingku-web.git
 
 2. **Install Dependencies:**
 
