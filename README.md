@@ -33,12 +33,14 @@ KucingKu Web is a platform designed for cat adoption, infused with a touch of Ma
 git clone https://github.com/yourusername/kucingku-web.git
 
 2. **Install Dependencies:**
-cd kucingku-web
+
+      cd kucingku-web
 
       npm install
 
 4. **Run the Server:**
-node app.js
+
+      node app.js
 
 5. **Access the Website:** 
 Open a web browser and navigate to `http://localhost:3000` to explore the KucingKu Web platform.
