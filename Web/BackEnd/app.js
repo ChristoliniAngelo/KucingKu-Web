@@ -1,35 +1,26 @@
 // buat mulai npm run start
 const express = require('express');
-const bodyParser = require('body-parser');
-
+const path = require('path');
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, '..', 'FrontEnd')));
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/data_user_page1', (req, res) => {
-  res.send('Formulir halaman pertama');
+app.post('/user_data', (req, res) => {
+    const { nama, umur, lokasi } = req.body;
+    console.log(`Data yang diterima: Username: ${nama}, Umur_User: ${umur}, Lokasi: ${lokasi}`);
+    // res.send('Data berhasil diterima!');
+    res.redirect('/isi_peferensi_kucing.html');
 });
 
-app.post('/data_user_page1', (req, res) => {
-  const { nama, umur, lokasi } = req.body;
-  console.log('Data dari halaman pertama:', nama, umur, lokasi);
-  res.redirect('/data_user_page2');
-});
-
-// Halaman kedua
-app.get('/data_user_page2', (req, res) => {
-  res.send('Formulir halaman kedua');
-});
-
-
-app.post('/data_user_page2', (req, res) => {
+app.post('/preference_cat', (req, res) => {
   const { jenis_kelamin, usia, warna, vaksinasi } = req.body;
-  console.log('Data dari halaman kedua:', jenis_kelamin, usia, warna, vaksinasi);
-  res.send('Data diterima dari halaman kedua');
+  console.log(`Data yang diterima: Jenis_Kelamin_Kucing: ${jenis_kelamin}, Usia_Kucing: ${usia}, Warna_Kucing: ${warna}, Vaksinasi_Kucing: ${vaksinasi}`);
+  res.redirect('/KucingKu.html');
 });
 
-
+// run server
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`);
 });
