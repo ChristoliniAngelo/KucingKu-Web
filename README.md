@@ -1,5 +1,7 @@
 # KucingKu Web: Cat Adoption with ML Touch
 
+![KucingKu Logo](https://github.com/ChristoliniAngelo/KucingKu-Web/raw/0889cf646241378f81d833e64cc20c64d52a1d42/Web/Properties/gambar/Logo.png)
+
 Welcome to the README for the KucingKu Web project!
 
 ## Overview
