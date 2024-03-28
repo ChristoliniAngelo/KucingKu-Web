@@ -35,7 +35,7 @@ git clone https://github.com/yourusername/kucingku-web.git
 2. **Install Dependencies:**
 cd kucingku-web
 
-npm install
+      npm install
 
 4. **Run the Server:**
 node app.js
