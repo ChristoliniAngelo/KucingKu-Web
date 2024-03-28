@@ -1,23 +1,50 @@
-// buat mulai npm run start
 const express = require('express');
 const path = require('path');
+const mysql = require('mysql');
 const app = express();
 const port = 3000;
+
+// Create connection pool
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'KucingKu' 
+});
 
 app.use(express.static(path.join(__dirname, '..', 'FrontEnd')));
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/user_data', (req, res) => {
     const { nama, umur, lokasi } = req.body;
-    console.log(`Data yang diterima: Username: ${nama}, Umur_User: ${umur}, Lokasi: ${lokasi}`);
-    // res.send('Data berhasil diterima!');
-    res.redirect('/isi_peferensi_kucing.html');
+    console.log(`Data yang diterima: Nama: ${nama}, Umur: ${umur}, Lokasi: ${lokasi}`);
+    
+    // Insert user data into the database
+    pool.query('INSERT INTO user (username, userage, userlocation) VALUES (?, ?, ?)', [nama, umur, lokasi], (err, result) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            res.status(500).send('Error saving user data');
+            return;
+        }
+        console.log('User data saved successfully');
+        res.redirect('/isi_peferensi_kucing.html');
+    });
 });
 
 app.post('/preference_cat', (req, res) => {
   const { jenis_kelamin, usia, warna, vaksinasi } = req.body;
-  console.log(`Data yang diterima: Jenis_Kelamin_Kucing: ${jenis_kelamin}, Usia_Kucing: ${usia}, Warna_Kucing: ${warna}, Vaksinasi_Kucing: ${vaksinasi}`);
-  res.redirect('/KucingKu.html');
+  console.log(`Data yang diterima: Jenis_Kelamin: ${jenis_kelamin},Usia: ${usia}, Warna: ${warna}, Vaksinasi: ${vaksinasi}`);
+  
+  // Insert cat preference data into the database
+  pool.query('INSERT INTO cat_preference (jenis_kelamin, usia, warna, vaksinasi) VALUES (?, ?, ?, ?)', [jenis_kelamin, usia, warna, vaksinasi], (err, result) => {
+      if (err) {
+          console.error('Error executing query:', err);
+          res.status(500).send('Error saving cat preference data');
+          return;
+      }
+      console.log('Cat preference data saved successfully');
+      res.redirect('/KucingKu.html');
+  });
 });
 
 // run server
