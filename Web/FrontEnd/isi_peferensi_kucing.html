@@ -39,7 +39,12 @@
             </div>
             <div class="mb-3">
                 <label for="usia" class="form-label">Usia Kucing:</label>
-                <input type="number" class="form-control" id="usia" name="usia" required>
+                <select class="form-select" id="usia" name="usia" required>
+                    <option value="" disabled selected>Pilih usia kucing</option>
+                    <option value="baby">Baby (&lt; 1 Tahun)</option>
+                    <option value="young">Young (1-2 Tahun)</option>
+                    <option value="adult">Adult (&gt; 2 Tahun)</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="warna" class="form-label">Warna Kucing:</label>
