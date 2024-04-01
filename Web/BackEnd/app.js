@@ -4,7 +4,6 @@ const mysql = require('mysql');
 const app = express();
 const port = 3000;
 
-// Create connection pool
 const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
@@ -19,7 +18,6 @@ app.post('/user_data', (req, res) => {
     const { nama, umur, lokasi } = req.body;
     console.log(`Data yang diterima: Nama: ${nama}, Umur: ${umur}, Lokasi: ${lokasi}`);
     
-    // Insert user data into the database
     pool.query('INSERT INTO user (username, userage, userlocation) VALUES (?, ?, ?)', [nama, umur, lokasi], (err, result) => {
         if (err) {
             console.error('Error executing query:', err);
@@ -35,7 +33,6 @@ app.post('/preference_cat', (req, res) => {
   const { jenis_kelamin, usia, warna, vaksinasi } = req.body;
   console.log(`Data yang diterima: Jenis_Kelamin: ${jenis_kelamin},Usia: ${usia}, Warna: ${warna}, Vaksinasi: ${vaksinasi}`);
   
-  // Insert cat preference data into the database
   pool.query('INSERT INTO cat_preference (jenis_kelamin, usia, warna, vaksinasi) VALUES (?, ?, ?, ?)', [jenis_kelamin, usia, warna, vaksinasi], (err, result) => {
       if (err) {
           console.error('Error executing query:', err);
@@ -47,7 +44,7 @@ app.post('/preference_cat', (req, res) => {
   });
 });
 
-// run server
+// server run
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`);
 });
