@@ -7,17 +7,13 @@ function playSound() {
     setTimeout(function() {
         audio.pause(); 
         audio.currentTime = 0; 
+        
+        setTimeout(function() {
+            window.location.href = 'Isi_data_user.html';
+        }, 30); // delay time
     }, 2000);
 }
 
 startButton.addEventListener('click', function() {
     playSound();
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const contentButton = document.querySelector('.content-button');
-    
-    contentButton.addEventListener('click', function() {
-        window.location.href = 'Isi_data_user.html';
-    });
 });

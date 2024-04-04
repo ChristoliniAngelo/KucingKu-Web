@@ -40,7 +40,7 @@ app.post('/preference_cat', (req, res) => {
           return;
       }
       console.log('Cat preference data saved successfully');
-      res.redirect('/KucingKu.html');
+      res.redirect('/result.html');
   });
 });
 
