@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    overflow: hidden;
+}
+
+.header {
+    background-color: transparent; 
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999; 
+}
+
+/* BAGIAN NAVBAR */
+nav.menu {
+    background-color: rgba(255, 255, 255, 0.8); 
+    border-radius: 10px; 
+    padding: 10px 20px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+nav.menu ul {
+    list-style: none; 
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+    margin: 0; 
+    padding: 0; 
+}
+
+nav.menu li {
+    margin: 0 10px; 
+}
+
+nav.menu a {
+    text-decoration: none; 
+    color: #333; 
+    font-family: 'Poppins', sans-serif; 
+    font-size: 18px; 
+    font-weight: 500; 
+    padding: 8px 12px; 
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+nav.menu a:hover, nav.menu a:focus {
+    background-color: #f60; 
+    color: #fff; 
+    border-radius: 10px; 
+}
+
+nav.menu a.github-logo:hover, nav.menu a.github-logo:focus {
+    background: none; 
+    color: inherit; 
+}
+
+/* END OF BAGIAN NAVBAR */
+
+.logo img {
+    width: 64px; 
+    height: auto; 
+}
+
+.main {
+    background-image: url('https://raw.githubusercontent.com/ChristoliniAngelo/KucingKu-Web/49c2503efd74a095de6781eae4e5fd79b436851b/properties/gambar/Background.png');
+    background-size: cover;
+    background-position: center;
+    height: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-container {
+    max-width: 800px;
+    text-align: center;
+    padding: 20px; 
+}
+
+.content-title {
+    color: #ffffff;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: Inter;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2; 
+    margin-bottom: 20px; 
+}
+
+.content-description {
+    color: rgba(0, 0, 0);
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.5; 
+    margin-bottom: 30px; 
+}
+
+.content-button {
+    width: 287px;
+    height: 74px;
+    flex-shrink: 0;
+    background: white;
+    backdrop-filter: blur(359.5px);
+    color: orange;
+    text-align: center;
+    line-height: 44px; 
+    text-decoration: none; 
+    font-weight: bold;
+    border-radius: 36px;
+    display: inline-block;
+    padding: 10px 20px; 
+    font-family: 'Open Sans', sans-serif; 
+    font-size: 28px;
+    transition: all 0.3s ease; 
+    cursor: pointer;
+}
+
+.content-button:hover {
+    background-color: orange; 
+    color: white;
+}
+
+.content-button:active {
+    transform: translateY(2px); 
+}
+
+.footer {
+    justify-content: space-between;
+    width: 231px;
+    background-color:transparent; 
+    padding: 20px;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: right; 
+    position: fixed; 
+    width: 100%; 
+    bottom: 0; 
+
+}
+
+.footer-text {
+    color: white; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* bagian div container */
+
+.card-body {
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.form-container h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center; 
+    text-transform: uppercase; 
+}
+
+.form-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 30px;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+}
+
+.form-select {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+}
+
+.form-select option {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: orange;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #ff9933;
+}
+
+/* Specific styles for login.html */
+
+.login-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific styles for register.html */
+
+.register-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific styles for catpreference.html */
+
+.catpreference-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional: Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./assets/image/logo.png" type="image/png">
+    <title>Cat Preference</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="./assets/image/logo.png" alt="Logo">
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Get Recomendation</a></li>
+                <li><a href="#">Cat Dataset</a></li>
+                <li><a class="github-logo" href="https://github.com/ChristoliniAngelo/KucingKu-Web.git">
+                        <img src="./assets/image/git.png" alt="GitHub" style="width: 30px; height: 30px;"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./assets/image/logo.png" type="image/png">
+    <title>Cat Preference</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="./assets/image/logo.png" alt="Logo">
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Get Recomendation</a></li>
+                <li><a href="#">Cat Dataset</a></li>
+                <li><a class="github-logo" href="https://github.com/ChristoliniAngelo/KucingKu-Web.git">
+                        <img src="./assets/image/git.png" alt="GitHub" style="width: 30px; height: 30px;"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main">
+        <main class="main">
+            <div class="main-container">
+                <div class="content-container">
+                    <h1 class="content-title">Cat Preference</h1>
+                    <form class="catpreference-form" action="/catpreference" method="POST">
+                        <div class="form-group">
+                            <label for="jenis_kelamin" class="form-label">Jenis Kelamin Kucing:</label>
+                            <select class="form-select" id="jenis_kelamin" name="jenis_kelamin">
+                                <option value="" disabled selected>Pilih jenis kelamin kucing</option>
+                                <option value="jantan">Jantan</option>
+                                <option value="betina">Betina</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="usia" class="form-label">Usia Kucing:</label>
+                            <select class="form-select" id="usia" name="usia" required>
+                                <option value="" disabled selected>Pilih usia kucing</option>
+                                <option value="baby">Baby (&lt; 1 Tahun)</option>
+                                <option value="young">Young (1-2 Tahun)</option>
+                                <option value="adult">Adult (&gt; 2 Tahun)</option>
+                        </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="warna" class="form-label">Warna Kucing:</label>
+                            <input type="text" class="form-control" id="warna" name="warna" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vaksinasi" class="form-label">Status Vaksinasi:</label>
+                            <select class="form-select" id="vaksinasi" name="vaksinasi">
+                                <option value="" disabled selected>Pilih status vaksinasi kucing</option>
+                                <option value="sudah">Sudah divaksin</option>
+                                <option value="belum">Belum divaksin</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit !</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    <footer class="footer">
+        <p class="footer-text">© 2024 KucingKu. All Rights Reserved</p>
+    </footer>
+    <script>
+        var startButton = document.querySelector('.content-button');
+        function playSound() {
+            var audio = new Audio('./assets/audio/');
+            audio.play();
+
+            setTimeout(function () {
+                audio.pause();
+                audio.currentTime = 0;
+            }, 2000); // 2000 milidetik = 2 detik
+        }
+        startButton.addEventListener('click', function () {
+            playSound();
+        });
+
+    </script>
+</body>
+
+</html>
+    <footer class="footer">
+        <p class="footer-text">© 2024 KucingKu. All Rights Reserved</p>
+    </footer>
+    <script>
+        var startButton = document.querySelector('.content-button');
+        function playSound() {
+            var audio = new Audio('./assets/audio/');
+            audio.play();
+
+            setTimeout(function () {
+                audio.pause();
+                audio.currentTime = 0;
+            }, 2000); // 2000 milidetik = 2 detik
+        }
+        startButton.addEventListener('click', function () {
+            playSound();
+        });
+
+    </script>
+</body>
+
+</html>
