@@ -248,12 +248,12 @@ button[type="submit"]:hover {
 /* Specific styles for catpreference.html */
 
 .catpreference-form {
-    max-width: 400px;
+    max-width: 600px; /* Increased max-width for a larger form */
     width: 100%;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 40px; /* Increased padding for better spacing */
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly increased opacity for better readability */
+    border-radius: 20px; /* Increased border-radius for smoother edges */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1); /* Slightly increased box shadow for depth */
 }
 
 /* Optional: Responsive adjustments for smaller screens */
