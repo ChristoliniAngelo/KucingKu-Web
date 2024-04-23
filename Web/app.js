@@ -22,10 +22,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware function for validating user registration data
 function validateRegistration(req, res, next) {
-    const { username, email, password, userage, location } = req.body;
+    const { username, email, password, age, usergender, userlocation } = req.body;
 
     // Check if all required fields are provided
-    if (!username || !email || !password || !userage || !location) {
+    if (!username || !email || !password || !age || !usergender || !userlocation) {
         return res.status(400).send('All fields are required');
     }
 
@@ -46,7 +46,7 @@ function validateLogin(req, res, next) {
 
 // Route for user registration
 app.post('/register', validateRegistration, (req, res) => {
-    const { username, email, password, userage, usergender, userlocation } = req.body;
+    const { username, email, password, age, usergender, userlocation } = req.body;
 
     // Hash the password
     bcrypt.hash(password, saltRounds, (err, hash) => {
@@ -57,7 +57,7 @@ app.post('/register', validateRegistration, (req, res) => {
 
         // Insert user data into the database
         pool.query('INSERT INTO user (username, email, password, userage, usergender, userlocation, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())',
-            [username, email, hash, userage, usergender, userlocation],
+            [username, email, hash, age, usergender, userlocation],
             (err, result) => {
                 if (err) {
                     console.error('Error executing query:', err);
@@ -84,9 +84,9 @@ app.post('/login', validateLogin, (req, res) => {
         }
         if (result.length > 0) {
             // Compare passwords
-            bcrypt.compare(password, result[0].password, (err, bcryptResult) => {
+            bcrypt.compare(password, result[0].PASSWORD, (err, bcryptResult) => {
                 if (err) {
-                    // Log and return the actual error message from bcrypt
+                    // Handle the error
                     console.error('Error comparing passwords:', err);
                     return res.status(500).send('Error authenticating user: ' + err.message);
                 }
@@ -98,12 +98,16 @@ app.post('/login', validateLogin, (req, res) => {
                     res.render('login', { error: 'Incorrect username or password' });
                 }
             });
+            
         } else {
             // Render login page with notification for incorrect credentials
             res.render('login', { error: 'Incorrect username or password' });
         }
     });
+    res.json({ username: username });
 });
+
+
 
 // Route for handling cat preference form submission
 app.post('/catpreference', (req, res) => {

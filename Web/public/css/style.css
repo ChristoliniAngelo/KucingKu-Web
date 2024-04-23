@@ -65,6 +65,29 @@ nav.menu a.github-logo:hover, nav.menu a.github-logo:focus {
     color: inherit; 
 }
 
+.dropdown-menu ul {
+    list-style: none; /* Menghapus bullets dari list */
+    padding: 0; /* Menghapus padding pada list */
+    margin: 0; /* Menghapus margin pada list */
+}
+
+.dropdown-item {
+    padding: 0.5rem 1.5rem;
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+    
+    background-color: #f8f9fa;
+}
+
+.dropdown-menu .dropdown-item:hover {
+        background-color: #f60;
+    }
+
+
 /* END OF BAGIAN NAVBAR */
 
 .logo img {
