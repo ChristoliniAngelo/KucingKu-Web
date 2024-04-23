@@ -279,6 +279,48 @@ button[type="submit"]:hover {
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1); /* Slightly increased box shadow for depth */
 }
 
+/* CSS untuk overlay menu */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Indeks z untuk menempatkan overlay di atas konten lain */
+}
+
+.message {
+    background-color: #fff;
+    padding: 40px; /* Penyesuaian padding untuk ukuran yang lebih besar */
+    border-radius: 20px; /* Penyesuaian border-radius untuk bentuk yang lebih lembut */
+    text-align: center;
+    font-family: 'Poppins', sans-serif; /* Gunakan font yang sama dengan situs web */
+    font-size: 18px; /* Ukuran font yang seragam dengan situs web */
+}
+
+.message p {
+    margin-bottom: 20px; /* Penyesuaian margin untuk ruang yang lebih besar antara paragraf */
+}
+
+.message button {
+    background-color: orange; /* Warna oranye yang konsisten dengan gaya tombol lainnya */
+    color: #fff;
+    border: none;
+    padding: 15px 30px; /* Penyesuaian padding untuk ukuran yang lebih besar */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transisi warna latar belakang */
+}
+
+.message button:hover {
+    background-color: #ff7f00; /* Warna oranye yang lebih gelap saat disorot */
+}
+
+
 /* Optional: Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
     .container {

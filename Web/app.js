@@ -2,10 +2,17 @@ const express = require('express');
 const path = require('path');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 const saltRounds = 10;
 
 const app = express();
 const port = 3000;
+
+// Set view engine to EJS
+app.set('view engine', 'ejs');
+
+// Set views directory
+app.set('views', path.join(__dirname, 'views'));
 
 // Create a MySQL connection pool
 const pool = mysql.createPool({
@@ -17,8 +24,16 @@ const pool = mysql.createPool({
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+
 // Parse URL-encoded bodies for form data
 app.use(express.urlencoded({ extended: true }));
+
+// Initialize session middleware
+app.use(session({
+    secret: 'secret-key',
+    resave: false,
+    saveUninitialized: true
+}));
 
 // Middleware function for validating user registration data
 function validateRegistration(req, res, next) {
@@ -78,40 +93,71 @@ app.post('/login', validateLogin, (req, res) => {
     // Query the database for the user
     pool.query('SELECT * FROM user WHERE username = ?', [username], (err, result) => {
         if (err) {
-            // Log and return the actual error message from MySQL
-            console.error('Error executing query:', err);
-            return res.status(500).send('Error authenticating user: ' + err.message);
+            // Error handling
         }
         if (result.length > 0) {
-            // Compare passwords
             bcrypt.compare(password, result[0].PASSWORD, (err, bcryptResult) => {
                 if (err) {
-                    // Handle the error
-                    console.error('Error comparing passwords:', err);
-                    return res.status(500).send('Error authenticating user: ' + err.message);
+                    // Error handling
                 }
                 if (bcryptResult) {
-                    // Redirect to the cat preference form upon successful login
-                    res.redirect('/formCat.html');
+                    // Store user ID in session
+                    req.session.userId = result[0].id;
+
+                    // Redirect to the welcome page upon successful login
+                    res.redirect('/welcome');
                 } else {
                     // Render login page with notification for incorrect credentials
                     res.render('login', { error: 'Incorrect username or password' });
                 }
             });
-            
         } else {
             // Render login page with notification for incorrect credentials
             res.render('login', { error: 'Incorrect username or password' });
         }
     });
-    res.json({ username: username });
 });
 
+// Route for handling the welcome page
+app.get('/welcome', (req, res) => {
+    // Check if user is authenticated
+    if (!req.session.userId) {
+        return res.redirect('/login.html'); // Redirect to login page if not logged in
+    }
 
+    // Retrieve username from session
+    const userId = req.session.userId;
+    pool.query('SELECT username FROM user WHERE id = ?', [userId], (err, result) => {
+        if (err) {
+            // Error handling
+        }
+        const username = result[0].username;
+        res.render('welcome', { username }); // Render welcome page with username
+    });
+});
+
+// Route for handling user logout
+app.get('/logout', (req, res) => {
+    // Destroy the session
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).send('Error logging out');
+        }
+        // Redirect to login page after logout
+        res.redirect('/login.html');
+    });
+});
 
 // Route for handling cat preference form submission
 app.post('/catpreference', (req, res) => {
+    // Check if user is authenticated
+    if (!req.session.userId) {
+        return res.status(401).send('Unauthorized');
+    }
+
     const { jenis_kelamin, usia, warna, vaksinasi } = req.body;
+    const user_id = req.session.userId; // Retrieve user_id from session
 
     // Check if all required fields are filled
     if (!jenis_kelamin || !usia || !warna || !vaksinasi) {
@@ -119,8 +165,8 @@ app.post('/catpreference', (req, res) => {
     }
 
     // Insert cat preference data into the database
-    pool.query('INSERT INTO cat_preference (jenis_kelamin, usia, warna, vaksinasi) VALUES (?, ?, ?, ?)',
-        [jenis_kelamin, usia, warna, vaksinasi],
+    pool.query('INSERT INTO cat_preference (user_id, jenis_kelamin, usia, warna, vaksinasi) VALUES (?, ?, ?, ?, ?)',
+        [user_id, jenis_kelamin, usia, warna, vaksinasi],
         (err, result) => {
             if (err) {
                 console.error('Error executing query:', err);
@@ -130,6 +176,18 @@ app.post('/catpreference', (req, res) => {
             // Send a success response to the client
             res.status(200).send('Cat preference form submitted successfully!');
         });
+});
+
+// Route for serving the formCat.html page
+app.get('/formCat.html', (req, res) => {
+    // Check if user is authenticated
+    if (!req.session.userId) {
+        // If user is not authenticated, redirect to the login page
+        return res.redirect('/login.html');
+    }
+
+    // If user is authenticated, serve the formCat.html page
+    res.sendFile(path.join(__dirname, 'public', 'formCat.html'));
 });
 
 // Start the server
