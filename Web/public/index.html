@@ -46,25 +46,7 @@
         <p class="footer-text">© 2024 KucingKu. All Rights Reserved</p>
     </footer>
     <script src="./js/navbar.js"></script>
-    <script>
-        var startButton = document.querySelector('.content-button');
-        function playSound() {
-            var audio = new Audio('./assets/audio/meow.mp3');
-            audio.play();
-
-            setTimeout(function () {
-                audio.pause();
-                audio.currentTime = 0;
-            }, 2000); // 2000 milidetik = 2 detik
-
-            setTimeout(function(){
-                window.location.href = 'Login.html'
-            })
-        }
-        startButton.addEventListener('click', function () {
-            playSound();
-        });
-    </script>
+    <script src="./js/mulai.js"></script>
 </body>
 
 </html>

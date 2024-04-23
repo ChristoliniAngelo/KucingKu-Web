@@ -1,22 +1,24 @@
+// Function to check login status
 function checkLogin(event) {
-    event.preventDefault(); // Menghentikan aksi default dari link
+    event.preventDefault(); // Prevent the default action of the link
 
-    // Cek apakah user sudah login
+    // Check if the user is logged in
     if (!sessionStorage.getItem('userId')) {
-        // Jika belum login, tampilkan overlay
+        // If not logged in, display the login overlay
         showLoginOverlay();
     } else {
-        // Jika sudah login, arahkan ke halaman formCat
+        // If logged in, redirect to the cat preference page
         window.location.href = 'formCat.html';
     }
 }
 
+// Function to display the login overlay
 function showLoginOverlay() {
-    // Buat overlay
+    // Create overlay element
     var overlay = document.createElement('div');
     overlay.classList.add('overlay');
 
-    // Tambahkan pesan
+    // Add message to the overlay
     var message = document.createElement('div');
     message.classList.add('message');
     message.innerHTML = `
@@ -26,11 +28,12 @@ function showLoginOverlay() {
 
     overlay.appendChild(message);
 
-    // Tambahkan overlay ke body
+    // Add overlay to the body
     document.body.appendChild(overlay);
 }
 
+// Function to redirect to the login page
 function redirectToLogin() {
-    // Arahkan ke halaman login
+    // Redirect to the login page
     window.location.href = 'login.html';
 }

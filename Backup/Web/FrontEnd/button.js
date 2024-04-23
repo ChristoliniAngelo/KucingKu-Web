@@ -1,19 +1,51 @@
-var startButton = document.querySelector('.content-button');
-
-function playSound() {
-    var audio = new Audio('https://raw.githubusercontent.com/ChristoliniAngelo/KucingKu-Web/b64752e3f95645fe2ab4464ac8c58ab95ada8f47/properties/suara/shari_meow-47485.mp3'); // path audio
-    audio.play();
-
-    setTimeout(function() {
-        audio.pause(); 
-        audio.currentTime = 0; 
-        
-        setTimeout(function() {
-            window.location.href = 'Isi_data_user.html';
-        }, 30); // delay time
-    }, 2000);
+function checkUserSession() {
+    // Check if the user's session is stored
+    return !!sessionStorage.getItem('userId');
 }
 
-startButton.addEventListener('click', function() {
-    playSound();
+function checkLogin(event) {
+    event.preventDefault(); // Prevent the default action of the link
+
+    // Check if the user is logged in
+    if (!checkUserSession()) {
+        // If not logged in, display the login overlay
+        showLoginOverlay();
+    } else {
+        // If logged in, redirect to the formCat page
+        window.location.href = 'formCat.html';
+    }
+}
+
+function showLoginOverlay() {
+    // Create overlay
+    var overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+
+    // Add message
+    var message = document.createElement('div');
+    message.classList.add('message');
+    message.innerHTML = `
+        <p>You must log in first!</p>
+        <button onclick="redirectToLogin()">Login</button>
+    `;
+
+    overlay.appendChild(message);
+
+    // Add overlay to the body
+    document.body.appendChild(overlay);
+}
+
+function redirectToLogin() {
+    // Redirect to the login page
+    window.location.href = 'login.html';
+}
+
+// Check user session when the page loads
+window.addEventListener('load', function() {
+    if (checkUserSession()) {
+        // If the user is logged in, update any UI accordingly
+        console.log('User is logged in');
+    } else {
+        console.log('User is not logged in');
+    }
 });
