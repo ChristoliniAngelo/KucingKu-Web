@@ -7,8 +7,8 @@ function checkLogin(event) {
         // If not logged in, display the login overlay
         showLoginOverlay();
     } else {
-        // If logged in, redirect to the cat preference page
-        window.location.href = 'formCat.html';
+        // If logged in, redirect to the "Get Recommendations" page
+        window.location.href = 'formCat.html'; 
     }
 }
 

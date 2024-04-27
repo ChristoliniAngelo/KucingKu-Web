@@ -8,9 +8,6 @@ const saltRounds = 10;
 const app = express();
 const port = 3000;
 
-// Set view engine to EJS
-app.set('view engine', 'ejs');
-
 // Set views directory
 app.set('views', path.join(__dirname, 'views'));
 
@@ -105,7 +102,7 @@ app.post('/login', validateLogin, (req, res) => {
                     req.session.userId = result[0].id;
 
                     // Redirect to the welcome page upon successful login
-                    res.redirect('/welcome');
+                    res.redirect('/welcome.html');
                 } else {
                     // Render login page with notification for incorrect credentials
                     res.render('login', { error: 'Incorrect username or password' });
@@ -119,20 +116,30 @@ app.post('/login', validateLogin, (req, res) => {
 });
 
 // Route for handling the welcome page
-app.get('/welcome', (req, res) => {
+app.get('/welcome.html', requireLogin, (req, res) => {
+    // If user is logged in, render the welcome page
+    res.sendFile(path.join(__dirname, 'public', 'welcome.html'));
+});
+
+// Route to get username
+app.get('/get-username', (req, res) => {
     // Check if user is authenticated
     if (!req.session.userId) {
-        return res.redirect('/login.html'); // Redirect to login page if not logged in
+        return res.status(401).send('Unauthorized');
     }
 
-    // Retrieve username from session
-    const userId = req.session.userId;
-    pool.query('SELECT username FROM user WHERE id = ?', [userId], (err, result) => {
+    // Query the database for the username based on userId
+    pool.query('SELECT username FROM user WHERE id = ?', [req.session.userId], (err, result) => {
         if (err) {
-            // Error handling
+            console.error('Error fetching username:', err);
+            return res.status(500).send('Error fetching username');
         }
-        const username = result[0].username;
-        res.render('welcome', { username }); // Render welcome page with username
+        if (result.length > 0) {
+            // Send the username as response
+            res.send(result[0].username);
+        } else {
+            return res.status(404).send('User not found');
+        }
     });
 });
 
@@ -150,7 +157,7 @@ app.get('/logout', (req, res) => {
 });
 
 // Route for handling cat preference form submission
-app.post('/catpreference', (req, res) => {
+app.post('/catpreference', requireLogin, (req, res) => {
     // Check if user is authenticated
     if (!req.session.userId) {
         return res.status(401).send('Unauthorized');
@@ -189,6 +196,15 @@ app.get('/formCat.html', (req, res) => {
     // If user is authenticated, serve the formCat.html page
     res.sendFile(path.join(__dirname, 'public', 'formCat.html'));
 });
+
+// Middleware function to check if user is logged in
+function requireLogin(req, res, next) {
+    if (req.session && req.session.userId) {
+        return next();
+    } else {
+        return res.redirect('/login.html');
+    }
+}
 
 // Start the server
 app.listen(port, () => {
