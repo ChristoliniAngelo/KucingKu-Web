@@ -8,9 +8,6 @@ const saltRounds = 10;
 const app = express();
 const port = 3000;
 
-// Set views directory
-app.set('views', path.join(__dirname, 'views'));
-
 // Create a MySQL connection pool
 const pool = mysql.createPool({
     host: 'localhost',
@@ -116,7 +113,7 @@ app.post('/login', validateLogin, (req, res) => {
 });
 
 // Route for handling the welcome page
-app.get('/welcome.html', requireLogin, (req, res) => {
+app.get('/welcome.html', requireLogin, (_req, res) => {
     // If user is logged in, render the welcome page
     res.sendFile(path.join(__dirname, 'public', 'welcome.html'));
 });
