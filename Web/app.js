@@ -178,7 +178,9 @@ app.post('/catpreference', requireLogin, (req, res) => {
             }
             console.log('Cat preference data saved successfully');
             // Send a success response to the client
-            res.status(200).send('Cat preference form submitted successfully!');
+            //res.status(200).send('Cat preference form submitted successfully!');
+            //navigate to result.html
+            res.redirect('/result.html')
         });
 });
 
