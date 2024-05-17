@@ -1,61 +1,75 @@
-from flask import Flask, request, jsonify
-import pickle
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+import joblib
 import numpy as np
 import pandas as pd
 
 # Load models and preprocessing objects
-with open('model_usercluster.pkl', 'rb') as f:
-    model_user = pickle.load(f)
-with open('pca_usercluster.pkl', 'rb') as f:
-    pca_user = pickle.load(f)
-with open('scaler_usercluster.pkl', 'rb') as f:
-    scaler_user = pickle.load(f)
+def load_models():
+    try:
+        model_user = joblib.load(r'Model ML\user\model_usercluster.pkl')
+        pca_user = joblib.load(r'Model ML\user\pca_usercluster.pkl')
+        scaler_user = joblib.load(r'Model ML\user\scaler_usercluster.pkl')
 
-with open('model_kucing.pkl', 'rb') as f:
-    model_kucing = pickle.load(f)
-with open('pca_kucing.pkl', 'rb') as f:
-    pca_kucing = pickle.load(f)
-with open('scaler_kucing.pkl', 'rb') as f:
-    scaler_kucing = pickle.load(f)
+        model_kucing = joblib.load(r'Model ML\kucing\model_kucing.pkl')
+        pca_kucing = joblib.load(r'Model ML\kucing\pca_kucing.pkl')
+        scaler_kucing = joblib.load(r'Model ML\kucing\scaler_kucing.pkl')
+        
+        return model_user, pca_user, scaler_user, model_kucing, pca_kucing, scaler_kucing
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error loading models: {str(e)}")
 
-# Baca file CSV dan analisis pemetaan
-df = pd.read_csv('hasil_usercluster.csv')
-mapping = df.groupby('user_cluster')['cat_cluster'].apply(list).to_dict()
+app = FastAPI()
 
-app = Flask(__name__)
+class UserRequest(BaseModel):
+    Userlocation: int
+    Userage: int
+    Usergender: int
 
-@app.route('/predict_user', methods=['POST'])
-def predict_user():
-    data = request.get_json()
+class KucingRequest(BaseModel):
+    Jenis_Kelamin: int
+    Umur: int
+    Warna: int
+    Status_Vaksinasi: int
+
+# Load models and preprocessing objects
+model_user, pca_user, scaler_user, model_kucing, pca_kucing, scaler_kucing = load_models()
+
+# Load data and preprocess mapping
+df = pd.read_csv(r'E:\KucingKu Web\Model ML\user\hasil_usercluster.csv')
+mapping = df.groupby('UserCluster')['ClusterKucing'].apply(list).to_dict()
+
+@app.post("/predict_user")
+async def predict_user(request: UserRequest):
     user_features = np.array([
-        data['Userlocation'],
-        data['Userage'],
-        data['Usergender']
+        request.Userlocation,
+        request.Userage,
+        request.Usergender
     ]).reshape(1, -1)
     
     user_features_scaled = scaler_user.transform(user_features)
     user_features_pca = pca_user.transform(user_features_scaled)
     user_cluster = model_user.predict(user_features_pca)[0]
     
-    recommended_cat_clusters = mapping.get(user_cluster, [])
+    recommended_cat_clusters = df[df['UserCluster'] == user_cluster]['ClusterKucing'].tolist()
     
-    return jsonify({'user_cluster': int(user_cluster), 'recommended_cat_clusters': recommended_cat_clusters})
+    return {"user_cluster": int(user_cluster), "recommended_cat_clusters": recommended_cat_clusters}
 
-@app.route('/predict_kucing', methods=['POST'])
-def predict_kucing():
-    data = request.get_json()
+@app.post("/predict_kucing")
+async def predict_kucing(request: KucingRequest):
     kucing_features = np.array([
-        data['Jenis Kelamin'],
-        data['Umur'],
-        data['Warna'],
-        data['Status Vaksinasi']
+        request.Jenis_Kelamin,
+        request.Umur,
+        request.Warna,
+        request.Status_Vaksinasi
     ]).reshape(1, -1)
     
     kucing_features_scaled = scaler_kucing.transform(kucing_features)
     kucing_features_pca = pca_kucing.transform(kucing_features_scaled)
-    kucing_cluster = model_kucing.predict(kucing_features_pca)
+    kucing_cluster = model_kucing.predict(kucing_features_pca)[0]
     
-    return jsonify({'kucing_cluster': int(kucing_cluster[0])})
+    return {"kucing_cluster": int(kucing_cluster)}
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
