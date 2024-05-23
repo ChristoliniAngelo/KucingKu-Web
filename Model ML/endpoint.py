@@ -41,18 +41,37 @@ mapping = df.groupby('UserCluster')['ClusterKucing'].apply(list).to_dict()
 
 @app.post("/predict_user")
 async def predict_user(request: UserRequest):
-    user_features = np.array([
-        request.Userlocation,
-        request.Userage,
-        request.Usergender
-    ]).reshape(1, -1)
-    
-    user_features_scaled = scaler_user.transform(user_features)
+    # Create a DataFrame from the input data with only required columns
+    user_features_df = pd.DataFrame({
+        'Userlocation': [request.Userlocation],
+        'Userage': [request.Userage],
+        'Usergender': [request.Usergender]
+    })
+
+    # Perform one-hot encoding on the input data
+    user_features_encoded = pd.get_dummies(user_features_df)
+
+    # Adjust the columns in the input data to match the columns used during model training
+    # If there are columns missing in the input data, add those columns with values of 0
+    missing_columns = set(df.columns) - set(user_features_encoded.columns)
+    for column in missing_columns:
+        user_features_encoded[column] = 0
+
+    # Reorder the columns in the input data to match the columns used during model training
+    user_features_encoded = user_features_encoded[df.columns]
+
+    # Transform using the scaler
+    user_features_scaled = scaler_user.transform(user_features_encoded)
+
+    # Transform using PCA
     user_features_pca = pca_user.transform(user_features_scaled)
+
+    # Predict the cluster label
     user_cluster = model_user.predict(user_features_pca)[0]
-    
-    recommended_cat_clusters = df[df['UserCluster'] == user_cluster]['ClusterKucing'].tolist()
-    
+
+    # Get the list of recommended cat clusters
+    recommended_cat_clusters = mapping.get(user_cluster, [])
+
     return {"user_cluster": int(user_cluster), "recommended_cat_clusters": recommended_cat_clusters}
 
 @app.post("/predict_kucing")

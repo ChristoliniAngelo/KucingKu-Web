@@ -1,33 +1,33 @@
-Username ,Userage,Usergender,Userlocation,Usercluster
-Dimas Mahendra,23,male ,Kota Lainnya,1
-Allaam Rosyad Akbar,22,male ,Kota Lainnya,1
-Jessica Stephanie Wijaya,23,female,Surabaya,4
-Raissa Rahma Susianto,21,female,Surabaya,2
-Vivaldi,21,male ,Kota Lainnya,1
-Ryan,22,male ,Surabaya,4
-Awel,22,female,Kota Lainnya,1
-Merthisia ,22,female,Kota Lainnya,1
-Hanin,21,male ,Kota Lainnya,1
-Akbar,22,male ,Kota Lainnya,1
-Aqila Rana Naufal,23,female,Sidoarjo,1
-Cristin Safea ,29,female,Kota Lainnya,0
-Panca,23,male ,Surabaya,4
-El,22,male ,Kota Lainnya,1
-Ria,26,female,Kota Lainnya,0
-May,22,female,Kota Lainnya,1
-Vodka,34,male ,Jakarta,5
-Sinta,26,female,Sidoarjo,0
-Ruly,26,male ,Kota Lainnya,0
-Radit,23,male ,Surabaya,4
-Elysha ,17,female,Kota Lainnya,3
-Ilham Wildan Permana ,22,male ,Kota Lainnya,1
-Pawmin,23,male ,Surabaya,4
-Pawmin,23,male ,Surabaya,4
-Pawmin,23,male ,Surabaya,4
-Disa Alviarini,19,female,Kota Lainnya,3
-Nikita Diva,19,female,Surabaya,2
-Rahmah Maulidanti Putri,21,female,Kota Lainnya,1
-Rahmah Maulidanti Putri,21,female,Kota Lainnya,1
-Aldi Mustofa,22,male ,Sidoarjo,4
-nadia,22,female,Kota Lainnya,1
-Christian Dwi,23,female,Kota Lainnya,1
+Username                 ,Userage ,Usergender ,Userlocation ,UserCluster ,ClusterKucing
+Dimas Mahendra           ,     23 ,male       ,Kota Lainnya ,          1 ,           15
+Allaam Rosyad Akbar      ,     22 ,male       ,Kota Lainnya ,          1 ,           28
+Jessica Stephanie Wijaya ,     23 ,female     ,Surabaya     ,          3 ,           14
+Raissa Rahma Susianto    ,     21 ,female     ,Surabaya     ,          3 ,            3
+Vivaldi                  ,     21 ,male       ,Kota Lainnya ,          1 ,            3
+Ryan                     ,     22 ,male       ,Surabaya     ,          2 ,           18
+Awel                     ,     22 ,female     ,Kota Lainnya ,          0 ,           23
+Merthisia                ,     22 ,female     ,Kota Lainnya ,          0 ,           20
+Hanin                    ,     21 ,male       ,Kota Lainnya ,          1 ,           15
+Akbar                    ,     22 ,male       ,Kota Lainnya ,          1 ,            1
+Aqila Rana Naufal        ,     23 ,female     ,Sidoarjo     ,          0 ,            1
+Cristin Safea            ,     29 ,female     ,Kota Lainnya ,          0 ,            8
+Panca                    ,     23 ,male       ,Surabaya     ,          2 ,           15
+El                       ,     22 ,male       ,Kota Lainnya ,          1 ,           15
+Ria                      ,     26 ,female     ,Kota Lainnya ,          0 ,           18
+May                      ,     22 ,female     ,Kota Lainnya ,          0 ,            8
+Vodka                    ,     34 ,male       ,Jakarta      ,          4 ,           12
+Sinta                    ,     26 ,female     ,Sidoarjo     ,          0 ,            8
+Ruly                     ,     26 ,male       ,Kota Lainnya ,          1 ,            9
+Radit                    ,     23 ,male       ,Surabaya     ,          2 ,           17
+Elysha                   ,     17 ,female     ,Kota Lainnya ,          0 ,           17
+Ilham Wildan Permana     ,     22 ,male       ,Kota Lainnya ,          1 ,           24
+Pawmin                   ,     23 ,male       ,Surabaya     ,          2 ,           13
+Pawmin                   ,     23 ,male       ,Surabaya     ,          2 ,           13
+Pawmin                   ,     23 ,male       ,Surabaya     ,          2 ,           26
+Disa Alviarini           ,     19 ,female     ,Kota Lainnya ,          0 ,            9
+Nikita Diva              ,     19 ,female     ,Surabaya     ,          3 ,           18
+Rahmah Maulidanti Putri  ,     21 ,female     ,Kota Lainnya ,          0 ,           17
+Rahmah Maulidanti Putri  ,     21 ,female     ,Kota Lainnya ,          0 ,           11
+Aldi Mustofa             ,     22 ,male       ,Sidoarjo     ,          1 ,           27
+nadia                    ,     22 ,female     ,Kota Lainnya ,          0 ,           12
+Christian Dwi            ,     23 ,female     ,Kota Lainnya ,          0 ,           16
