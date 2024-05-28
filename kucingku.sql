@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 17, 2024 at 03:50 AM
+-- Generation Time: May 28, 2024 at 10:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,6 +24,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cats`
+--
+
+CREATE TABLE `cats` (
+  `id` int(11) NOT NULL,
+  `nama_kucing` varchar(32) NOT NULL,
+  `jenis_kelamin` enum('Jantan','Betina') NOT NULL,
+  `umur` enum('Baby','Young','Adult','') NOT NULL,
+  `warna` enum('Hitam','Putih','Coklat','Abu-Abu','Orange') NOT NULL,
+  `lokasi` enum('Surabaya','Sidoarjo','Jakarta','Kota Lainnya') NOT NULL,
+  `status_vaksinasi` enum('Sudah','Belum') NOT NULL,
+  `FotoKucing` longblob NOT NULL,
+  `ClusterKucing` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cat_preference`
 --
 
@@ -32,7 +50,7 @@ CREATE TABLE `cat_preference` (
   `user_id` int(11) NOT NULL,
   `jenis_kelamin` enum('Jantan','Betina') NOT NULL,
   `usia` enum('Baby','Young','Adult') NOT NULL,
-  `warna` varchar(255) NOT NULL,
+  `warna` enum('Hitam','Putih','Coklat','Abu-Abu','Orange') NOT NULL,
   `vaksinasi` enum('Sudah','Belum') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -46,7 +64,8 @@ INSERT INTO `cat_preference` (`id`, `user_id`, `jenis_kelamin`, `usia`, `warna`,
 (2, 2, 'Betina', 'Young', 'Putih', 'Sudah', '2024-04-23 16:51:57'),
 (3, 2, 'Jantan', 'Young', 'Putih', 'Sudah', '2024-04-27 14:46:57'),
 (4, 3, 'Jantan', 'Young', 'Putih', 'Sudah', '2024-05-06 17:43:19'),
-(5, 4, 'Betina', 'Young', 'Hitam', 'Sudah', '2024-05-10 01:50:05');
+(5, 4, 'Betina', 'Young', 'Hitam', 'Sudah', '2024-05-10 01:50:05'),
+(6, 4, 'Jantan', 'Baby', 'Hitam', 'Sudah', '2024-05-17 08:44:29');
 
 -- --------------------------------------------------------
 
@@ -80,6 +99,12 @@ INSERT INTO `user` (`id`, `username`, `email`, `PASSWORD`, `created_at`, `userag
 --
 
 --
+-- Indexes for table `cats`
+--
+ALTER TABLE `cats`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `cat_preference`
 --
 ALTER TABLE `cat_preference`
@@ -97,10 +122,16 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `cats`
+--
+ALTER TABLE `cats`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `cat_preference`
 --
 ALTER TABLE `cat_preference`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user`
