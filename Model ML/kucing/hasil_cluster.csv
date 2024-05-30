@@ -3,8 +3,8 @@ Hachi,Jantan,Young,Hitam,Sidoarjo,Sudah,4
 Bedok,Betina,Baby,Coklat,Surabaya,Belum,0
 Januari,Jantan,Baby,Coklat,Surabaya,Belum,4
 Iwak,Jantan,Baby,Abu-Abu,Surabaya,Belum,25
- Moza,Betina,Adult,Abu-Abu,Surabaya,Belum,11
- Theo,Jantan,Young,Orange,Surabaya,Belum,24
+Moza,Betina,Adult,Abu-Abu,Surabaya,Belum,11
+Theo,Jantan,Young,Orange,Surabaya,Belum,24
 Chika,Betina,Adult,Orange,Surabaya,Sudah,22
 Mao,Betina,Baby,Abu-Abu,Surabaya,Sudah,19
 Fella,Betina,Baby,Hitam,Sidoarjo,Sudah,6
@@ -13,8 +13,8 @@ Dewi,Betina,Adult,Orange,Sidoarjo,Belum,28
 Putih,Jantan,Adult,Putih,Surabaya,Sudah,1
 Sana,Betina,Adult,Putih,Sidoarjo,Sudah,3
 Chimmy,Betina,Young,Abu-Abu,Surabaya,Belum,17
-Jebug ,Jantan,Young,Putih,Sidoarjo,Belum,2
-Daffa,Jantan,Adult,Putih,Surabaya,Belum,14
+Jebug,Jantan,Young,Putih,Sidoarjo,Belum,2
+Daffa,Jantan,Adult,Putih,Surabaya,Belum,14 
 Kitty,Betina,Adult,Abu-Abu,Surabaya,Belum,11
 Hiro,Jantan,Young,Putih,Surabaya,Belum,2
 Manis,Jantan,Adult,Abu-Abu,Surabaya,Belum,20
@@ -23,7 +23,7 @@ Lala,Betina,Adult,Orange,Sidoarjo,Sudah,22
 Maru,Jantan,Adult,Orange,Sidoarjo,Sudah,18
 Milo,Jantan,Young,Abu-Abu,Sidoarjo,Sudah,10
 Bobi,Jantan,Young,Orange,Surabaya,Belum,24
-Eden,Jantan,Young,Hitam,Surabaya,Belum,9
+Eden,Jantan,Young,Hitam,Surabaya,Belum,9 ------ belom masuk sql------------
 Jane,Betina,Adult,Putih,Surabaya,Sudah,3
 Momo,Betina,Adult,Putih,Surabaya,Belum,15
 Simba,Betina,Adult,Orange,Surabaya,Belum,28

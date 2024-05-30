@@ -2,7 +2,7 @@
   <img src="https://github.com/ChristoliniAngelo/KucingKu-Web/raw/0889cf646241378f81d833e64cc20c64d52a1d42/Web/Properties/gambar/Logo.png" alt="KucingKu Logo">
 </p>
 
-<h1 align="center">KucingKu Web: Cat Adoption with ML Touch</h1>
+<h1 align="center">KucingKu: Find Your Puurr-fect feline company</h1>
 
 <p align="center">Welcome to the README for the KucingKu Web project!</p>
 
@@ -25,8 +25,8 @@ KucingKu Web is a platform designed for cat adoption, infused with a touch of Ma
 
 ## Technologies Used
 
-- **Frontend:** HTML, CSS
-- **Backend:** Node.js
+- **Frontend:** HTML, CSS, & JS
+- **Backend:** Node.js & Fast API
 - **Machine Learning:** K-means clustering algorithm
 
 ---
