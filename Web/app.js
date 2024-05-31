@@ -4,6 +4,8 @@ const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const saltRounds = 10;
+const axios = require('axios');
+ 
 
 const app = express();
 const port = 3000;
@@ -177,10 +179,24 @@ app.post('/catpreference', requireLogin, (req, res) => {
                 return res.status(500).send('Error saving cat preference data');
             }
             console.log('Cat preference data saved successfully');
-            // Send a success response to the client
-            //res.status(200).send('Cat preference form submitted successfully!');
-            //navigate to result.html
-            res.redirect('/result.html')
+
+            // Make a POST request to the FastAPI endpoint to get the recommendations
+            axios.post('http://localhost:8000/predict_user', {
+                Userlocation: req.body.userlocation,
+                Userage: req.body.userage,
+                Usergender: req.body.usergender
+            })
+            .then(response => {
+                // Save the recommendation result in the session
+                req.session.recommendation = response.data;
+                
+                // Redirect to result.html after successful submission and prediction
+                res.redirect('/result.html');
+            })
+            .catch(error => {
+                console.error('Error getting recommendations:', error);
+                return res.status(500).send('Error getting recommendations');
+            });
         });
 });
 
@@ -194,6 +210,29 @@ app.get('/formCat.html', (req, res) => {
 
     // If user is authenticated, serve the formCat.html page
     res.sendFile(path.join(__dirname, 'public', 'formCat.html'));
+});
+
+// Route to handle the result page and display the recommendations
+app.get('/result', (req, res) => {
+    // Check if user is authenticated
+    if (!req.session.userId) {
+        // If user is not authenticated, redirect to the login page
+        return res.redirect('/login.html');
+    }
+
+    // Retrieve the recommendation from the session
+    const recommendation = req.session.recommendation;
+
+    // Fetch cat data from the database
+    pool.query('SELECT * FROM cats WHERE ClusterKucing IN (?)', [recommendation.recommended_cat_clusters], (err, result) => {
+        if (err) {
+            console.error('Error fetching cat data:', err);
+            return res.status(500).send('Error fetching cat data');
+        }
+
+        // Render the result.html page with the recommendation and cat data
+        res.render('result', { recommendation, cats: result });
+    });
 });
 
 // Middleware function to check if user is logged in

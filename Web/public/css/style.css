@@ -321,6 +321,42 @@ button[type="submit"]:hover {
 }
 
 
+/* result */
+
+#recommendation-title {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+#cats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.cat {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: 200px;
+}
+
+.cat img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.cat h3 {
+    margin: 10px 0 5px;
+}
+
+.cat p {
+    margin: 0;
+}
+
+
 /* Optional: Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
     .container {
