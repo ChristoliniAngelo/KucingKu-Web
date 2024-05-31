@@ -181,7 +181,7 @@ app.post('/catpreference', requireLogin, (req, res) => {
             console.log('Cat preference data saved successfully');
 
             // Make a POST request to the FastAPI endpoint to get the recommendations
-            axios.post('http://localhost:8000/predict_user', {
+            axios.post('http://127.0.0.1:8000/predict_user', {
                 Userlocation: req.body.userlocation,
                 Userage: req.body.userage,
                 Usergender: req.body.usergender
