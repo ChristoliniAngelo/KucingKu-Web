@@ -3,12 +3,13 @@ const path = require('path');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const request = require('request');
 const saltRounds = 10;
-const axios = require('axios');
- 
 
 const app = express();
 const port = 3000;
+
+app.use(express.json());
 
 // Create a MySQL connection pool
 const pool = mysql.createPool({
@@ -20,6 +21,7 @@ const pool = mysql.createPool({
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
 
 // Parse URL-encoded bodies for form data
 app.use(express.urlencoded({ extended: true }));
@@ -89,19 +91,23 @@ app.post('/login', validateLogin, (req, res) => {
     // Query the database for the user
     pool.query('SELECT * FROM user WHERE username = ?', [username], (err, result) => {
         if (err) {
-            // Error handling
+            console.error('Error executing query:', err);
+            return res.status(500).send('Error logging in');
         }
         if (result.length > 0) {
+            // Compare the provided password with the hashed password
             bcrypt.compare(password, result[0].PASSWORD, (err, bcryptResult) => {
                 if (err) {
-                    // Error handling
+                    console.error('Error comparing passwords:', err);
+                    return res.status(500).send('Error logging in');
                 }
                 if (bcryptResult) {
-                    // Store user ID in session
+                    // Store user ID in session     
                     req.session.userId = result[0].id;
 
                     // Redirect to the welcome page upon successful login
                     res.redirect('/welcome.html');
+                    console.log(req.session);
                 } else {
                     // Render login page with notification for incorrect credentials
                     res.render('login', { error: 'Incorrect username or password' });
@@ -179,24 +185,8 @@ app.post('/catpreference', requireLogin, (req, res) => {
                 return res.status(500).send('Error saving cat preference data');
             }
             console.log('Cat preference data saved successfully');
-
-            // Make a POST request to the FastAPI endpoint to get the recommendations
-            axios.post('http://127.0.0.1:8000/predict_user', {
-                Userlocation: req.body.userlocation,
-                Userage: req.body.userage,
-                Usergender: req.body.usergender
-            })
-            .then(response => {
-                // Save the recommendation result in the session
-                req.session.recommendation = response.data;
-                
-                // Redirect to result.html after successful submission and prediction
-                res.redirect('/result.html');
-            })
-            .catch(error => {
-                console.error('Error getting recommendations:', error);
-                return res.status(500).send('Error getting recommendations');
-            });
+            // Redirect to result.html after successful submission
+            res.redirect('/result.html');
         });
 });
 
@@ -212,29 +202,6 @@ app.get('/formCat.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'formCat.html'));
 });
 
-// Route to handle the result page and display the recommendations
-app.get('/result', (req, res) => {
-    // Check if user is authenticated
-    if (!req.session.userId) {
-        // If user is not authenticated, redirect to the login page
-        return res.redirect('/login.html');
-    }
-
-    // Retrieve the recommendation from the session
-    const recommendation = req.session.recommendation;
-
-    // Fetch cat data from the database
-    pool.query('SELECT * FROM cats WHERE ClusterKucing IN (?)', [recommendation.recommended_cat_clusters], (err, result) => {
-        if (err) {
-            console.error('Error fetching cat data:', err);
-            return res.status(500).send('Error fetching cat data');
-        }
-
-        // Render the result.html page with the recommendation and cat data
-        res.render('result', { recommendation, cats: result });
-    });
-});
-
 // Middleware function to check if user is logged in
 function requireLogin(req, res, next) {
     if (req.session && req.session.userId) {
@@ -243,6 +210,71 @@ function requireLogin(req, res, next) {
         return res.redirect('/login.html');
     }
 }
+
+// Route to handle the result page
+app.get('/result', requireLogin, (req, res) => {
+    console.log('Fetching data for user ID:', req.session.userId);
+    
+    // Get user and cat preference data from the database
+    pool.query('SELECT * FROM user WHERE id = ?', [req.session.userId], (err, userResult) => {
+        if (err) {
+            console.error('Error fetching user data:', err);
+            return res.status(500).send('Error fetching user data');
+        }
+
+        console.log('User data fetched:', userResult);
+
+        if (userResult.length > 0) {
+            pool.query('SELECT * FROM cat_preference WHERE user_id = ?', [req.session.userId], (err, catResult) => {
+                if (err) {
+                    console.error('Error fetching cat preference data:', err);
+                    return res.status(500).send('Error fetching cat preference data');
+                }
+
+                console.log('Cat preference data fetched:', catResult);
+
+                if (catResult.length > 0) {
+                    const user = userResult[0];
+                    const catPreference = catResult[0];
+
+                    // Prepare request data for the recommender system
+                    const requestData = {
+                        Userlocation: user.userlocation,
+                        Userage: user.userage,
+                        Usergender: user.usergender,
+                        Jenis_Kelamin: catPreference.jenis_kelamin,
+                        Umur: catPreference.usia,
+                        Warna: catPreference.warna,
+                        Status_Vaksinasi: catPreference.vaksinasi
+                    };
+
+                    // Make a request to the FastAPI server
+                    request.post({
+                        url: 'http://127.0.0.1:8000/predict_user',
+                        json: requestData
+                    }, (err, response, body) => {
+                        if (err) {
+                            console.error('Error calling recommender system:', err);
+                            return res.status(500).send('Error calling recommender system');
+                        }
+
+                        if (response.statusCode === 200) {
+                            console.log('Recommendations fetched:', body);
+                            // Send recommendation data as JSON response
+                            res.json(body);
+                        } else {
+                            res.status(response.statusCode).send('Error fetching recommendations');
+                        }
+                    });
+                } else {
+                    res.status(404).send('Cat preference data not found');
+                }
+            });
+        } else {
+            res.status(404).send('User data not found');
+        }
+    });
+});
 
 // Start the server
 app.listen(port, () => {
