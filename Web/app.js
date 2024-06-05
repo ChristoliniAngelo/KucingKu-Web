@@ -211,11 +211,14 @@ function requireLogin(req, res, next) {
     }
 }
 
-// Route to handle the result page
+//route for result
 app.get('/result', requireLogin, (req, res) => {
-    console.log('Fetching data for user ID:', req.session.userId);
-    
-    // Get user and cat preference data from the database
+    if (!req.session.userId) {
+        return res.status(401).send('Unauthorized');
+    }
+
+    console.log(`Fetching data for user ID: ${req.session.userId}`);
+
     pool.query('SELECT * FROM user WHERE id = ?', [req.session.userId], (err, userResult) => {
         if (err) {
             console.error('Error fetching user data:', err);
@@ -225,19 +228,18 @@ app.get('/result', requireLogin, (req, res) => {
         console.log('User data fetched:', userResult);
 
         if (userResult.length > 0) {
-            pool.query('SELECT * FROM cat_preference WHERE user_id = ?', [req.session.userId], (err, catResult) => {
+            pool.query('SELECT * FROM cat_preference WHERE user_id = ?', [req.session.userId], (err, catPreferenceResult) => {
                 if (err) {
                     console.error('Error fetching cat preference data:', err);
                     return res.status(500).send('Error fetching cat preference data');
                 }
 
-                console.log('Cat preference data fetched:', catResult);
+                console.log('Cat preference data fetched:', catPreferenceResult);
 
-                if (catResult.length > 0) {
+                if (catPreferenceResult.length > 0) {
                     const user = userResult[0];
-                    const catPreference = catResult[0];
+                    const catPreference = catPreferenceResult[0];
 
-                    // Prepare request data for the recommender system
                     const requestData = {
                         Userlocation: user.userlocation,
                         Userage: user.userage,
@@ -248,7 +250,6 @@ app.get('/result', requireLogin, (req, res) => {
                         Status_Vaksinasi: catPreference.vaksinasi
                     };
 
-                    // Make a request to the FastAPI server
                     request.post({
                         url: 'http://127.0.0.1:8000/predict_user',
                         json: requestData
@@ -259,9 +260,18 @@ app.get('/result', requireLogin, (req, res) => {
                         }
 
                         if (response.statusCode === 200) {
-                            console.log('Recommendations fetched:', body);
-                            // Send recommendation data as JSON response
-                            res.json(body);
+                            const recommendedCatClusters = body.recommended_cat_clusters;
+                            const placeholders = recommendedCatClusters.map(() => '?').join(',');
+                            const query = `SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing FROM cats WHERE ClusterKucing IN (${placeholders})`;
+
+                            pool.query(query, recommendedCatClusters, (err, catResults) => {
+                                if (err) {
+                                    console.error('Error fetching recommended cats:', err);
+                                    return res.status(500).send('Error fetching recommended cats');
+                                }
+
+                                res.json(catResults);
+                            });
                         } else {
                             res.status(response.statusCode).send('Error fetching recommendations');
                         }
@@ -275,6 +285,44 @@ app.get('/result', requireLogin, (req, res) => {
         }
     });
 });
+
+function getContentType(imageData) {
+    const signature = imageData.slice(0, 4).toString('hex');
+  
+    if (signature === '89504e47') {
+      return 'image/png';
+    } else if (signature === '47494638') {
+      return 'image/gif';
+    } else if (signature.startsWith('ffd8')) { // Check for JPEG start marker
+      return 'image/jpeg';
+    } else {
+      return 'image/unknown';
+    }
+  }
+  
+
+app.get('/cat-image/:id', async (req, res) => {
+    const catId = req.params.id;
+  
+    try {
+      const [rows] = await pool.query('SELECT FotoKucing FROM cats WHERE id = ?', [catId]);
+  
+      if (rows.length === 0) {
+        return res.status(404).send('Image not found');
+      }
+  
+      const image = rows[0].FotoKucing;
+      const contentType = getContentType(image); // Call the getContentType function
+  
+      res.setHeader('Content-Type', contentType);
+      res.setHeader('Content-Length', image.length);
+      res.end(image);
+    } catch (err) {
+      console.error('Error fetching image from database:', err);
+      res.status(500).send('Error fetching image');
+    }
+  });
+  
 
 // Start the server
 app.listen(port, () => {
