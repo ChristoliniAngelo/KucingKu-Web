@@ -22,6 +22,7 @@ const pool = mysql.createPool({
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/js', express.static(path.join(__dirname, 'public/js')));
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
 // Parse URL-encoded bodies for form data
 app.use(express.urlencoded({ extended: true }));
@@ -211,7 +212,7 @@ function requireLogin(req, res, next) {
     }
 }
 
-//route for result
+// Route for result
 app.get('/result', requireLogin, (req, res) => {
     if (!req.session.userId) {
         return res.status(401).send('Unauthorized');
@@ -286,42 +287,27 @@ app.get('/result', requireLogin, (req, res) => {
     });
 });
 
-function getContentType(imageData) {
-    const signature = imageData.slice(0, 4).toString('hex');
-  
-    if (signature === '89504e47') {
-      return 'image/png';
-    } else if (signature === '47494638') {
-      return 'image/gif';
-    } else if (signature.startsWith('ffd8')) { // Check for JPEG start marker
-      return 'image/jpeg';
-    } else {
-      return 'image/unknown';
-    }
-  }
-  
-
-app.get('/cat-image/:id', async (req, res) => {
+// Serve cat image from local folder
+app.get('/cat-image/:id', (req, res) => {
     const catId = req.params.id;
-  
-    try {
-      const [rows] = await pool.query('SELECT FotoKucing FROM cats WHERE id = ?', [catId]);
-  
-      if (rows.length === 0) {
-        return res.status(404).send('Image not found');
-      }
-  
-      const image = rows[0].FotoKucing;
-      const contentType = getContentType(image); // Call the getContentType function
-  
-      res.setHeader('Content-Type', contentType);
-      res.setHeader('Content-Length', image.length);
-      res.end(image);
-    } catch (err) {
-      console.error('Error fetching image from database:', err);
-      res.status(500).send('Error fetching image');
-    }
-  });
+
+    pool.query('SELECT FotoKucing FROM cats WHERE id = ?', [catId], (err, result) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.status(500).send('Error fetching image');
+        }
+        if (result.length > 0) {
+            const imagePath = path.join(__dirname, result[0].FotoKucing);
+            if (fs.existsSync(imagePath)) {
+                res.sendFile(imagePath);
+            } else {
+                res.status(404).send('Image not found');
+            }
+        } else {
+            res.status(404).send('Image not found');
+        }
+    });
+});
   
 
 // Start the server

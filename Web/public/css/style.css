@@ -320,21 +320,44 @@ button[type="submit"]:hover {
     background-color: #ff7f00; /* Warna oranye yang lebih gelap saat disorot */
 }
 
+#recommendation-title {
+    color: white; /* Ubah warna teks menjadi putih */
+    text-align: center; /* Pusatkan teks */
+}
 
-/* result */
+/* Container for the gallery */
+#cats-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 16px;
+    overflow-y: auto;
+    max-height: 90vh; /* Adjust as needed */
+}
+
+/* Individual cat card */
 .cat-card {
+    width: calc(33.33% - 20px); /* Lebar setiap kartu kucing */
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     padding: 16px;
-    margin: 16px;
     text-align: center;
     cursor: pointer;
+    border-radius: 10px; /* Rounded corners for the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    background: #fff; /* Optional background color */
 }
 
 .cat-card img {
     width: 100%;
-    height: auto;
+    height: 200px; /* Fixed height for consistency */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    border-radius: 10px; /* Rounded corners for the image */
 }
 
+/* Overlay for cat details */
 .cat-overlay {
     display: none;
     position: fixed;
@@ -342,27 +365,43 @@ button[type="submit"]:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.8); /* Warna latar belakang overlay */
     justify-content: center;
     align-items: center;
+    z-index: 9999; /* Pastikan overlay tampil di atas konten lain */
 }
 
 .overlay-content {
-    background: #fff;
+    display: flex;
+    background: #fff; /* Warna latar belakang konten overlay */
     padding: 20px;
     border-radius: 5px;
-    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Efek bayangan untuk menambah dimensi */
+    max-width: 80%; /* Lebar maksimum konten overlay */
+}
+
+.overlay-image {
+    flex: 0 0 auto;
+    margin-right: 20px;
+    width: auto;
+    height: 150px; /* Tinggi gambar yang disesuaikan */
+    transform: scale(0.5); /* Skala gambar menjadi setengah ukuran aslinya */
+    transform-origin: top left; /* Tetapkan titik asal transformasi ke kiri atas */
+}
+
+.overlay-details {
+    flex: 1 1 auto; /* Detail mengisi ruang yang tersisa */
+    text-align: left; /* Tekstur kiri untuk detail */
 }
 
 .close-overlay {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 30px;
+    font-size: 24px;
+    color: #888; /* Warna ikon close */
     cursor: pointer;
 }
-
-
 
 /* Optional: Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
