@@ -58,6 +58,15 @@ function validateLogin(req, res, next) {
     next();
 }
 
+// Middleware function to check if user is logged in
+function requireLogin(req, res, next) {
+    if (req.session && req.session.userId) {
+        return next();
+    } else {
+        return res.redirect('/login.html');
+    }
+}
+
 // Route for user registration
 app.post('/register', validateRegistration, (req, res) => {
     const { username, email, password, age, usergender, userlocation } = req.body;
@@ -202,15 +211,6 @@ app.get('/formCat.html', (req, res) => {
     // If user is authenticated, serve the formCat.html page
     res.sendFile(path.join(__dirname, 'public', 'formCat.html'));
 });
-
-// Middleware function to check if user is logged in
-function requireLogin(req, res, next) {
-    if (req.session && req.session.userId) {
-        return next();
-    } else {
-        return res.redirect('/login.html');
-    }
-}
 
 // Route for result
 app.get('/result', requireLogin, (req, res) => {

@@ -370,55 +370,61 @@ button[type="submit"]:hover {
     align-items: center;
     z-index: 9999; /* Pastikan overlay tampil di atas konten lain */
     animation: fadeIn 0.3s ease; /* Animasi munculnya overlay */
-    overflow-y: hidden;
-    overflow-x: hidden
 }
 
 .overlay-content {
     display: flex;
+    flex-direction: column; /* Mengatur konten secara vertikal */
     background: #fff; /* Warna latar belakang konten overlay */
     padding: 20px;
     border-radius: 15px; /* Membuat sudut konten lebih melengkung */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Efek bayangan untuk menambah dimensi */
-    max-width: 600px; /* Lebar maksimum konten overlay */
-    max-height: 80%; /* Tinggi maksimum konten overlay */
-    overflow-y: auto; /* Tambahkan scroll jika konten terlalu tinggi */
-    flex-direction: column; /* Tampilkan konten secara vertikal */
+    width: 600px; /* Lebar tetap untuk konten overlay */
+    height: auto; /* Tinggi otomatis berdasarkan konten */
+    max-height: 90vh; /* Tinggi maksimum konten overlay */
+    overflow: hidden; /* Hilangkan scroll bar */
     position: relative; /* Posisi relatif untuk elemen anak */
-    border: 1px solid #ffa500; /* Garis tepi dengan warna orange */
+    border: 15px solid linear-gradient(to right, #ffa500, #ff8c00);/* Garis tepi dengan warna orange */
     animation: slideUp 0.3s ease; /* Animasi munculnya konten overlay */
+    box-sizing: border-box;
 }
 
 .overlay-image-container {
     width: 100%; /* Lebar container gambar mengikuti lebar konten */
-    height: 200px; /* Tinggi tetap untuk gambar agar konsisten */
+    height: calc(60% * (width / max-width)); /* Tinggi dihitung berdasarkan lebar */
     margin-bottom: 20px; /* Jarak bawah untuk gambar */
     overflow: hidden; /* Sembunyikan bagian gambar yang melampaui container */
     border-bottom: 1px solid #ffa500; /* Garis bawah gambar dengan warna orange */
     border-radius: 15px 15px 0 0; /* Membuat sudut atas gambar lebih melengkung */
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Posisi relatif untuk elemen anak */
+  }
 
 .overlay-image {
-    width: 100%; /* Lebar gambar mengikuti lebar container */
-    height: 100%; /* Tinggi gambar mengikuti tinggi container */
-    object-fit: cover; /* Skala gambar untuk mengisi container */
+    display: block;
+    max-width:230px;
+    max-height:95px;
+    width: auto;
+    height: auto;/* Tinggi maksimal gambar mengikuti tinggi container */
+    object-fit: cover; /* Skala gambar untuk mengisi container dengan tetap menjaga rasio */
+    position: absolute; /* Posisi absolut agar gambar tetap di tengah */
+    top: 50%; /* Posisikan di tengah vertikal */
+    left: 50%; /* Posisikan di tengah horizontal */
+    transform: translate(-50%, -50%); /* Pindahkan ke tengah */
 }
 
 .overlay-details {
-    flex: 1 1 auto; /* Detail mengisi ruang yang tersisa */
+    flex: 1; /* Detail mengisi ruang yang tersisa */
     text-align: left; /* Teks rata kiri untuk detail */
     color: #333; /* Warna teks */
     line-height: 1.6; /* Jarak antar baris teks */
     font-family: 'Helvetica Neue', sans-serif; /* Font modern */
-}
-
-.overlay-details::-webkit-scrollbar {
-    display: none; /* Hilangkan scrollbar untuk Webkit browser (Chrome, Safari) */
-}
-
-.overlay-details {
-    -ms-overflow-style: none; /* Hilangkan scrollbar untuk Internet Explorer dan Edge */
-    scrollbar-width: none; /* Hilangkan scrollbar untuk Firefox */
+    max-height: calc(90vh - 300px); /* Sesuaikan tinggi detail berdasarkan tinggi konten */
+    overflow-y: hidden; /* Hilangkan scroll bar */
+    padding-right: 20px; /* Tambahkan padding untuk menghindari teks tersembunyi */
+    box-sizing: border-box; /* Pastikan padding tidak mempengaruhi lebar */
 }
 
 .close-overlay {

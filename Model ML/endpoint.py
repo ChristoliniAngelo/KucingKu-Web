@@ -1,10 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import joblib
-import numpy as np
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
 
 # Function to load models and preprocessing objects
 def load_models():
@@ -111,7 +108,7 @@ async def predict_cat(request: KucingRequest):
         # Predict the cat cluster using the loaded model
         Kucing_cluster = model_kucing.predict(Kucing_features_pca)[0]
 
-        return {"Kucing_cluster": int(Kucing_cluster)}
+        return {"recommended_cat_clusters": int(Kucing_cluster)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error predicting kucing cluster: {str(e)}")
 

@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const catLocation = document.getElementById('cat-location');
   const catColor = document.getElementById('cat-color');
   const catVaccineStatus = document.getElementById('cat-vaccine-status');
+//   const catCluster = document.getElementById('cat-cluster');
 
   const createCatCard = (cat) => {
       const catCard = document.createElement('div');
@@ -16,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
       catCard.innerHTML = `
           <img src="${cat.FotoKucing}" alt="Cat Image" id="cat-card-image-${cat.id}">
           <h3><strong>${cat.nama_kucing}</strong></h3>
-          <p>Cluster Kucing: ${cat.jenis_kelamin}</p>
+          <p>Jenis Kelamin: ${cat.jenis_kelamin}</p>
       `;
 
       catCard.addEventListener('click', () => {
