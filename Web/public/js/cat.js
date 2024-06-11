@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       catCard.innerHTML = `
           <img src="${cat.FotoKucing}" alt="Cat Image" id="cat-card-image-${cat.id}">
           <h3><strong>${cat.nama_kucing}</strong></h3>
-          <p>Cluster Kucing: ${cat.ClusterKucing}</p>
+          <p>Cluster Kucing: ${cat.jenis_kelamin}</p>
       `;
 
       catCard.addEventListener('click', () => {

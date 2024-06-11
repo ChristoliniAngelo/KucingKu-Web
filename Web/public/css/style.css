@@ -365,42 +365,94 @@ button[type="submit"]:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Warna latar belakang overlay */
+    background: rgba(0, 0, 0, 0.7); /* Warna latar belakang overlay */
     justify-content: center;
     align-items: center;
     z-index: 9999; /* Pastikan overlay tampil di atas konten lain */
+    animation: fadeIn 0.3s ease; /* Animasi munculnya overlay */
+    overflow-y: hidden;
+    overflow-x: hidden
 }
 
 .overlay-content {
     display: flex;
     background: #fff; /* Warna latar belakang konten overlay */
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Efek bayangan untuk menambah dimensi */
-    max-width: 80%; /* Lebar maksimum konten overlay */
+    border-radius: 15px; /* Membuat sudut konten lebih melengkung */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Efek bayangan untuk menambah dimensi */
+    max-width: 600px; /* Lebar maksimum konten overlay */
+    max-height: 80%; /* Tinggi maksimum konten overlay */
+    overflow-y: auto; /* Tambahkan scroll jika konten terlalu tinggi */
+    flex-direction: column; /* Tampilkan konten secara vertikal */
+    position: relative; /* Posisi relatif untuk elemen anak */
+    border: 1px solid #ffa500; /* Garis tepi dengan warna orange */
+    animation: slideUp 0.3s ease; /* Animasi munculnya konten overlay */
+}
+
+.overlay-image-container {
+    width: 100%; /* Lebar container gambar mengikuti lebar konten */
+    height: 200px; /* Tinggi tetap untuk gambar agar konsisten */
+    margin-bottom: 20px; /* Jarak bawah untuk gambar */
+    overflow: hidden; /* Sembunyikan bagian gambar yang melampaui container */
+    border-bottom: 1px solid #ffa500; /* Garis bawah gambar dengan warna orange */
+    border-radius: 15px 15px 0 0; /* Membuat sudut atas gambar lebih melengkung */
 }
 
 .overlay-image {
-    flex: 0 0 auto;
-    margin-right: 20px;
-    width: auto;
-    height: 150px; /* Tinggi gambar yang disesuaikan */
-    transform: scale(0.5); /* Skala gambar menjadi setengah ukuran aslinya */
-    transform-origin: top left; /* Tetapkan titik asal transformasi ke kiri atas */
+    width: 100%; /* Lebar gambar mengikuti lebar container */
+    height: 100%; /* Tinggi gambar mengikuti tinggi container */
+    object-fit: cover; /* Skala gambar untuk mengisi container */
 }
 
 .overlay-details {
     flex: 1 1 auto; /* Detail mengisi ruang yang tersisa */
-    text-align: left; /* Tekstur kiri untuk detail */
+    text-align: left; /* Teks rata kiri untuk detail */
+    color: #333; /* Warna teks */
+    line-height: 1.6; /* Jarak antar baris teks */
+    font-family: 'Helvetica Neue', sans-serif; /* Font modern */
+}
+
+.overlay-details::-webkit-scrollbar {
+    display: none; /* Hilangkan scrollbar untuk Webkit browser (Chrome, Safari) */
+}
+
+.overlay-details {
+    -ms-overflow-style: none; /* Hilangkan scrollbar untuk Internet Explorer dan Edge */
+    scrollbar-width: none; /* Hilangkan scrollbar untuk Firefox */
 }
 
 .close-overlay {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: #888; /* Warna ikon close */
+    top: -10px; /* Penempatan lebih baik untuk tampilan modern */
+    right: -10px;
+    font-size: 18px;
+    color: #fff; /* Warna ikon close */
     cursor: pointer;
+    background: #ffa500; /* Latar belakang ikon close */
+    border-radius: 50%; /* Membuat ikon close bulat */
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Efek bayangan untuk ikon close */
+    transition: background 0.3s ease, transform 0.3s ease; /* Transisi untuk hover */
+}
+
+.close-overlay:hover {
+    background: #ff8c00; /* Latar belakang ikon close saat hover */
+    transform: rotate(90deg); /* Animasi rotasi saat hover */
+}
+
+/* Keyframes untuk animasi */
+@keyframes fadeIn {
+    from { background: rgba(0, 0, 0, 0); }
+    to { background: rgba(0, 0, 0, 0.7); }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 /* Optional: Responsive adjustments for smaller screens */
