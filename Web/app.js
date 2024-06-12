@@ -212,7 +212,6 @@ app.get('/formCat.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'formCat.html'));
 });
 
-// Route for result
 app.get('/result', requireLogin, (req, res) => {
     if (!req.session.userId) {
         return res.status(401).send('Unauthorized');

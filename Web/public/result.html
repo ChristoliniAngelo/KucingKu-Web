@@ -30,8 +30,9 @@
     <main class="main">
         <div class="main-container">            
             <div class="additional-content">
-                <h2 id="recommendation-title">Recommended Cats</h2>
+                <h2 id="recommendation-title">Recommended Cats For You</h2>
                 <!-- This is where the cats will be displayed -->
+                <button id="load-more-btn">Load More</button>
                 <div id="cats-container"></div>
             </div>
         </div>
@@ -44,13 +45,17 @@
     <div id="cat-overlay" class="cat-overlay">
         <div class="overlay-content">
             <span id="close-overlay" class="close-overlay">&times;</span>
-            <img id="cat-image" src="" alt="Cat Image">
-            <h2 id="cat-name"></h2>
-            <p><strong>Jenis Kelamin:</strong> <span id="cat-gender"></span></p>
-            <p><strong>Umur:</strong> <span id="cat-age"></span></p>
-            <p><strong>Lokasi:</strong> <span id="cat-location"></span></p>
-            <p><strong>Warna:</strong> <span id="cat-color"></span></p>
-            <p><strong>Status Vaksinasi:</strong> <span id="cat-vaccine-status"></span></p>
+            <div class="overlay-image-container">
+                <img id="cat-image" class="overlay-image" src="" alt="Cat Image">
+            </div>
+            <div class="overlay-details">
+                <h2 id="cat-name"></h2>
+                <p><strong>Jenis Kelamin:</strong> <span id="cat-gender"></span></p>
+                <p><strong>Umur:</strong> <span id="cat-age"></span></p>
+                <p><strong>Lokasi:</strong> <span id="cat-location"></span></p>
+                <p><strong>Warna:</strong> <span id="cat-color"></span></p>
+                <p><strong>Status Vaksinasi:</strong> <span id="cat-vaccine-status"></span></p>
+            </div>
         </div>
     </div>
 
