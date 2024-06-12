@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="./css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            overflow-y: scroll; /* Add vertical scrollbar */
+            overflow-x: hidden; 
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -32,10 +39,10 @@
             <div class="additional-content">
                 <h2 id="recommendation-title">Recommended Cats For You</h2>
                 <!-- This is where the cats will be displayed -->
-                <button id="load-more-btn">Load More</button>
                 <div id="cats-container"></div>
             </div>
         </div>
+        <button id="load-more-btn">Load More <i class="fas fa-paw"></i></button>
     </main>
     <footer class="footer">
         <p class="footer-text">© 2024 KucingKu. All Rights Reserved</p>

@@ -5,8 +5,12 @@
 }
 
 body, html {
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
+    background-image: url('../assets/image/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .header {
@@ -20,12 +24,11 @@ body, html {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100; 
 }
 
 /* Container for header and recommendation-title */
 .container {
-    margin-top: 60px; /* Adjust this value to match the height of your header */
+    margin-top: 80px; /* Adjust this value to match the height of your header */
 }
 
 /* BAGIAN NAVBAR */
@@ -101,10 +104,7 @@ nav.menu a.github-logo:hover, nav.menu a.github-logo:focus {
 }
 
 .main {
-    background-image: url('https://raw.githubusercontent.com/ChristoliniAngelo/KucingKu-Web/49c2503efd74a095de6781eae4e5fd79b436851b/properties/gambar/Background.png');
-    background-size: cover;
-    background-position: center;
-    height: 100%; 
+    height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -295,7 +295,7 @@ button[type="submit"]:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Indeks z untuk menempatkan overlay di atas konten lain */
+    z-index: 10/* Indeks z untuk menempatkan overlay di atas konten lain */
 }
 
 .message {
@@ -326,33 +326,37 @@ button[type="submit"]:hover {
 }
 
 #load-more-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+    transform: translateX(-50%);
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
-    background-color: orange;
+    background: linear-gradient(to right, #f0932b, #f7c947); /* Example gradient */ 
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    z-index: 10;
 }
 
 #load-more-btn:hover {
-    background-color: #ff7f00;
+    background: linear-gradient(to right, #f7c947, #f0932b); /* Reverse gradient on hover */
 }
 
 #recommendation-title {
-    position: relative; /* Posisi relatif untuk penempatan manual */
-    margin-top: 140px;
-    color: white; /* Ubah warna teks menjadi putih */
-    text-align: center; /* Pusatkan teks */
+    position: relative;
+    margin-top: 120px;
+    color: white;
+    text-align: center;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     font-family: Inter;
     font-size: 40px;
     font-weight: 700;
-    line-height: 1.2; 
-    margin-bottom: 20px; 
+    line-height: 1.2;
 }
 
 /* Container for the gallery */
@@ -363,7 +367,6 @@ button[type="submit"]:hover {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     padding: 16px;
-    overflow-y: auto;
     max-height: 90vh; /* Adjust as needed */
 }
 
@@ -565,6 +568,13 @@ button[type="submit"]:hover {
     max-width: 600px; /* Lebar maksimum overlay */
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Efek bayangan */
 }
+
+.star {
+    font-size: 30px;
+    color: gray;
+    cursor: pointer;
+}
+
 
 /* Keyframes untuk animasi */
 @keyframes fadeIn {
