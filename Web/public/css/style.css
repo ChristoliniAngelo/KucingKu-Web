@@ -550,11 +550,11 @@ button[type="submit"]:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Warna latar belakang semi-transparan */
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 300; /* Pastikan muncul di atas semua elemen lain */
+    z-index: 300; /* Ensure it appears above all other elements */
 }
 
 .rating-message {
@@ -562,18 +562,28 @@ button[type="submit"]:hover {
     padding: 40px;
     border-radius: 10px;
     text-align: center;
-    color: black; /* Warna teks hitam */
-    stroke: orange; /* Stroke orange */
-    width: 60%; /* Lebar overlay */
-    max-width: 600px; /* Lebar maksimum overlay */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Efek bayangan */
+    color: black; /* Black text color */
+    stroke: orange; /* Orange stroke */
+    width: 60%; /* Width of the overlay */
+    max-width: 600px; /* Maximum width for the overlay */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Shadow effect */
+    font-family: Inter;
+    font-size: 1.5em; /* Larger text */
+    font-weight: 700; /* Bold text */
 }
 
 .star {
-    font-size: 30px;
+    margin-top: 20px;
+    font-size: 50px; /* Increased font size for larger stars */
     color: gray;
     cursor: pointer;
 }
+
+.star:hover,
+.star.selected {
+    color: orange; /* Highlight color for selected or hovered stars */
+}
+
 
 
 /* Keyframes untuk animasi */

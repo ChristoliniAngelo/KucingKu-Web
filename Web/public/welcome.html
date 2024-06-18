@@ -31,6 +31,7 @@
                 <h1 class="content-title" id="welcome-message">Hi, Loading...</h1>
                 <p class="content-description">Cari kucing yang cocok dengan preferensi anda!</p>
                 <button id="start-button" class="content-button">Mulai!</button>
+                <div id="gratitude-message" class="content-message"></div> <!-- New message div -->
             </div>
             <div class="additional-content"></div>
         </div>
@@ -50,6 +51,15 @@
                 .catch(error => {
                     console.error('Error fetching username:', error);
                 });
+
+            // Check for gratitude message query parameter and display if present
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            if (message) {
+                const gratitudeMessage = document.getElementById('gratitude-message');
+                gratitudeMessage.innerHTML = `<p>${message}</p>`;
+                gratitudeMessage.style.color = 'orange'; 
+            }
         });
 
         // Add event listener for start button

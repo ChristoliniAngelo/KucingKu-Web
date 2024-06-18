@@ -136,6 +136,15 @@ app.get('/welcome.html', requireLogin, (_req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'welcome.html'));
 });
 
+// Add this endpoint to your existing backend code
+app.get('/get-user-id', (req, res) => {
+    if (req.session.userId) {
+        res.json({ userId: req.session.userId });
+    } else {
+        res.status(401).json({ error: 'User not logged in' });
+    }
+});
+
 // Route to get username
 app.get('/get-username', (req, res) => {
     // Check if user is authenticated
@@ -262,7 +271,7 @@ app.get('/result', requireLogin, (req, res) => {
                         if (response.statusCode === 200) {
                             const recommendedCatClusters = body.recommended_cat_clusters;
                             const placeholders = recommendedCatClusters.map(() => '?').join(',');
-                            const query = `SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing FROM cats WHERE ClusterKucing IN (${placeholders})`;
+                            const query = `SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing,ClusterKucing FROM cats WHERE ClusterKucing IN (${placeholders})`;
 
                             pool.query(query, recommendedCatClusters, (err, catResults) => {
                                 if (err) {
@@ -307,7 +316,26 @@ app.get('/cat-image/:id', (req, res) => {
         }
     });
 });
-  
+
+// Handle rating-submission
+app.post('/submit-rating', (req, res) => {
+    const { user_id, cat_id, ClusterKucing, Rating } = req.body;
+
+    if (!user_id || !cat_id || !ClusterKucing || !Rating) {
+        return res.status(400).send('Bad Request: Missing required fields');
+    }
+
+    const query = 'INSERT INTO rating (user_id, cat_id, ClusterKucing, Rating, created_at) VALUES (?, ?, ?, ?, NOW())';
+
+    pool.query(query, [user_id, cat_id, ClusterKucing, Rating], (err, results) => {
+        if (err) {
+            console.error('Error inserting rating:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        // Redirect to welcome.html with a gratitude message
+        res.redirect(`/welcome.html?message=Terima%20Kasih%!`);
+    });
+});
 
 // Start the server
 app.listen(port, () => {
