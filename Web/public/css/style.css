@@ -364,7 +364,6 @@ button[type="submit"]:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     padding: 16px;
     max-height: 90vh; /* Adjust as needed */
@@ -372,9 +371,9 @@ button[type="submit"]:hover {
 
 /* Individual cat card */
 .cat-card {
-    width: calc(33.33% - 20px); /* Lebar setiap kartu kucing */
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
+    width: calc(33.33% - 16px); /* Lebar setiap kartu kucing (33.33% dari lebar parent minus gap) */
+    flex: 1 0 30%; /* Flex untuk memastikan tampilan yang seragam */
+    margin-bottom: 16px;
     padding: 16px;
     text-align: center;
     cursor: pointer;
@@ -474,6 +473,7 @@ button[type="submit"]:hover {
 .button-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 20px;
 }
 
@@ -583,7 +583,44 @@ button[type="submit"]:hover {
 .star.selected {
     color: orange; /* Highlight color for selected or hovered stars */
 }
+/* Styling for user preference button */
+#user-pref-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #FFA500; /* Orange */
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px; /* Optional: Adds some space between buttons */
+}
 
+#user-pref-btn:hover {
+    background-color: white; /* White on hover */
+    color: #FFA500; /* Orange text color on hover */
+}
+
+/* Styling for cat preference button */
+#cat-pref-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: white; /* White */
+    color: #FFA500; /* Orange text color */
+    border: 2px solid #FFA500; /* Orange border */
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#cat-pref-btn:hover {
+    background-color: #FFA500; /* Orange on hover */
+    color: white; /* White text color on hover */
+}
 
 
 /* Keyframes untuk animasi */

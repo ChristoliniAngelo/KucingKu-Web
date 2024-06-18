@@ -11,13 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const catColor = document.getElementById('cat-color');
     const catVaccineStatus = document.getElementById('cat-vaccine-status');
     const overlayContent = document.querySelector('.overlay-content');
+    const userPrefBtn = document.getElementById('user-pref-btn');
+    const catPrefBtn = document.getElementById('cat-pref-btn');
 
     let catsData = [];
     let catsDisplayed = 9;
     const catsPerPage = 6;
-    let selectedCatId = null; // Variable to keep track of selected cat ID
-    let selectedCatCluster = null; // Variable to keep track of selected cat cluster
-    let userId = null; // Variable to store the user ID
+    let selectedCatId = null;
+    let selectedCatCluster = null;
+    let fetchRoute = 'cat'; // Default route
 
     // Function to fetch the user ID from the backend
     const fetchUserId = () => {
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(data => {
                 if (data.userId) {
-                    userId = data.userId;
+                    return data.userId;
                 } else {
                     throw new Error('User ID not found');
                 }
@@ -87,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const fetchCatsData = () => {
-        fetch('http://localhost:3000/result')
+        // Fetch cats data based on the fetchRoute ('user' or 'cat')
+        fetch(`http://localhost:3000/result/${fetchRoute}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -107,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adoptButton = document.createElement('button');
     adoptButton.innerText = 'Adopt';
     adoptButton.classList.add('overlay-button');
-    adoptButton.addEventListener('click', () => {
+    adoptButton.addEventListener('click', async () => {
         const confirmationOverlay = document.createElement('div');
         confirmationOverlay.classList.add('overlay', 'confirmation-overlay');
         confirmationOverlay.style.zIndex = '200';
@@ -123,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmationOverlay.appendChild(confirmationMessage);
         document.body.appendChild(confirmationOverlay);
 
-        document.querySelector('.confirm-adopt').addEventListener('click', () => {
+        document.querySelector('.confirm-adopt').addEventListener('click', async () => {
             document.body.removeChild(confirmationOverlay);
 
             const satisfactionOverlay = document.createElement('div');
@@ -163,15 +166,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('Rating:', selectedRating);
 
                     // Fetch user ID before sending the rating data
-                    await fetchUserId();
+                    const userId = await fetchUserId();
 
                     // Ensure userId is available before sending the request
-                    if (userId !== null) {
+                    if (userId) {
                         // Send rating data to the server
                         const ratingData = {
-                            user_id: userId, // Actual user ID
-                            cat_id: selectedCatId, // Use the selected cat ID
-                            ClusterKucing: selectedCatCluster, // Use the selected cat cluster
+                            user_id: userId,
+                            cat_id: selectedCatId,
+                            ClusterKucing: selectedCatCluster,
                             Rating: selectedRating
                         };
 
@@ -241,5 +244,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadMoreBtn.addEventListener('click', loadMoreCats);
 
+    // Event listener for user preference button
+    userPrefBtn.addEventListener('click', () => {
+        fetchRoute = 'user';
+        fetchCatsData();
+    });
+
+    // Event listener for cat preference button
+    catPrefBtn.addEventListener('click', () => {
+        fetchRoute = 'cat';
+        fetchCatsData();
+    });
+
+    // Initialize fetching data based on 'cat' route initially
     fetchCatsData();
 });

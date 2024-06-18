@@ -221,7 +221,7 @@ app.get('/formCat.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'formCat.html'));
 });
 
-app.get('/result', requireLogin, (req, res) => {
+app.get('/result/user', requireLogin, (req, res) => {
     if (!req.session.userId) {
         return res.status(401).send('Unauthorized');
     }
@@ -249,47 +249,146 @@ app.get('/result', requireLogin, (req, res) => {
                     const user = userResult[0];
                     const catPreference = catPreferenceResult[0];
 
-                    const requestData = {
+                    const requestDataUser = {
                         Userlocation: user.userlocation,
                         Userage: user.userage,
                         Usergender: user.usergender,
-                        Jenis_Kelamin: catPreference.jenis_kelamin,
-                        Umur: catPreference.usia,
-                        Warna: catPreference.warna,
-                        Status_Vaksinasi: catPreference.vaksinasi
                     };
 
-                    request.post({
-                        url: 'http://127.0.0.1:8000/predict_user',
-                        json: requestData
-                    }, (err, response, body) => {
-                        if (err) {
-                            console.error('Error calling recommender system:', err);
-                            return res.status(500).send('Error calling recommender system');
-                        }
+                    new Promise((resolve, reject) => {
+                        request.post({
+                            url: 'http://127.0.0.1:8000/predict_user',
+                            json: requestDataUser
+                        }, (err, response, body) => {
+                            if (err) {
+                                console.error('Error calling recommender system for user:', err);
+                                return reject('Error calling recommender system for user');
+                            }
 
-                        if (response.statusCode === 200) {
-                            const recommendedCatClusters = body.recommended_cat_clusters;
-                            const placeholders = recommendedCatClusters.map(() => '?').join(',');
-                            const query = `SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing,ClusterKucing FROM cats WHERE ClusterKucing IN (${placeholders})`;
+                            if (response.statusCode === 200) {
+                                resolve(body.recommended_cat_clusters);
+                            } else {
+                                reject(`Error fetching recommendations for user: ${response.statusCode}`);
+                            }
+                        });
+                    })
+                    .then(recommendedCatClustersUser => {
+                        const placeholdersUser = recommendedCatClustersUser.map(() => '?').join(',');
+                        const queryUser = `SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing, ClusterKucing FROM cats WHERE ClusterKucing IN (${placeholdersUser})`;
 
-                            pool.query(query, recommendedCatClusters, (err, catResults) => {
-                                if (err) {
-                                    console.error('Error fetching recommended cats:', err);
-                                    return res.status(500).send('Error fetching recommended cats');
-                                }
+                        pool.query(queryUser, recommendedCatClustersUser, (errUser, catResultsUser) => {
+                            if (errUser) {
+                                console.error('Error fetching recommended cats for user:', errUser);
+                                return res.status(500).send('Error fetching recommended cats for user');
+                            }
 
-                                res.json(catResults);
-                            });
-                        } else {
-                            res.status(response.statusCode).send('Error fetching recommendations');
-                        }
+                            res.json(catResultsUser);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        res.status(500).send('Error fetching recommendations');
                     });
                 } else {
                     res.status(404).send('Cat preference data not found');
                 }
             });
         } else {
+            res.status(404).send('User data not found');
+        }
+    });
+});
+
+app.get('/result/cat', requireLogin, (req, res) => {
+    // Check if user is authenticated
+    if (!req.session.userId) {
+        return res.status(401).send('Unauthorized');
+    }
+
+    console.log(`Fetching data for user ID: ${req.session.userId}`);
+
+    // Fetch user data from database
+    pool.query('SELECT * FROM user WHERE id = ?', [req.session.userId], (err, userResult) => {
+        if (err) {
+            console.error('Error fetching user data:', err);
+            return res.status(500).send('Error fetching user data');
+        }
+
+        console.log('User data fetched:', userResult);
+
+        // If user data exists
+        if (userResult.length > 0) {
+            // Fetch cat preferences for the user
+            pool.query('SELECT * FROM cat_preference WHERE user_id = ?', [req.session.userId], (err, catPreferenceResult) => {
+                if (err) {
+                    console.error('Error fetching cat preference data:', err);
+                    return res.status(500).send('Error fetching cat preference data');
+                }
+
+                console.log('Cat preference data fetched:', catPreferenceResult);
+
+                // If cat preferences exist
+                if (catPreferenceResult.length > 0) {
+                    const catPreference = catPreferenceResult[0];
+
+                    // Prepare request data for the recommender system
+                    const requestDataCat = {
+                        Jenis_Kelamin: catPreference.jenis_kelamin,
+                        Umur: catPreference.usia,
+                        Warna: catPreference.warna,
+                        Status_Vaksinasi: catPreference.vaksinasi
+                    };
+
+                    // Call the recommender system API to get recommended cat clusters
+                    new Promise((resolve, reject) => {
+                        request.post({
+                            url: 'http://127.0.0.1:8000/predict_cat',
+                            json: requestDataCat
+                        }, (err, response, body) => {
+                            if (err) {
+                                console.error('Error calling recommender system for cats:', err);
+                                return reject('Error calling recommender system for cats');
+                            }
+
+                            if (response.statusCode === 200) {
+                                // Handle both cases: single cluster or multiple clusters recommended
+                                const recommendedCatClustersCat = Array.isArray(body.recommended_cat_clusters)
+                                    ? body.recommended_cat_clusters
+                                    : [body.recommended_cat_clusters];
+
+                                resolve(recommendedCatClustersCat);
+                            } else {
+                                reject(`Error fetching recommendations for cats: ${response.statusCode}`);
+                            }
+                        });
+                    })
+                    .then(recommendedCatClustersCat => {
+                        // Generate placeholders for recommended cat clusters in SQL query
+                        const placeholdersCat = recommendedCatClustersCat.map(() => '?').join(',');
+                        const queryCat = `SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing, ClusterKucing FROM cats WHERE ClusterKucing IN (${placeholdersCat})`;
+
+                        // Fetch cats based on recommended clusters from the database
+                        pool.query(queryCat, recommendedCatClustersCat, (errCat, catResultsCat) => {
+                            if (errCat) {
+                                console.error('Error fetching recommended cats for cats:', errCat);
+                                return res.status(500).send('Error fetching recommended cats for cats');
+                            }
+
+                            // Send the fetched cat results as JSON response
+                            res.json(catResultsCat);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        res.status(500).send('Error fetching recommendations');
+                    });
+                } else {
+                    // If cat preferences are not found
+                    res.status(404).send('Cat preference data not found');
+                }
+            });
+        } else {
+            // If user data is not found
             res.status(404).send('User data not found');
         }
     });
