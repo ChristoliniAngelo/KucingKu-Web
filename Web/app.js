@@ -307,89 +307,74 @@ app.get('/result/cat', requireLogin, (req, res) => {
 
     console.log(`Fetching data for user ID: ${req.session.userId}`);
 
-    // Fetch user data from database
-    pool.query('SELECT * FROM user WHERE id = ?', [req.session.userId], (err, userResult) => {
+    // Query to fetch the latest cat preferences for the user
+    const query = `
+        SELECT jenis_kelamin, usia, warna, vaksinasi
+        FROM cat_preference
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 1
+    `;
+
+    pool.query(query, [req.session.userId], (err, catPreferenceResult) => {
         if (err) {
-            console.error('Error fetching user data:', err);
-            return res.status(500).send('Error fetching user data');
+            console.error('Error fetching cat preference data:', err);
+            return res.status(500).send('Error fetching cat preference data');
         }
 
-        console.log('User data fetched:', userResult);
+        console.log('Cat preference data fetched:', catPreferenceResult);
 
-        // If user data exists
-        if (userResult.length > 0) {
-            // Fetch cat preferences for the user
-            pool.query('SELECT * FROM cat_preference WHERE user_id = ?', [req.session.userId], (err, catPreferenceResult) => {
+        if (catPreferenceResult.length > 0) {
+            const catPreference = catPreferenceResult[0];
+
+            // Prepare request data for the recommender system
+            const requestDataCat = {
+                Jenis_Kelamin: catPreference.jenis_kelamin,
+                Umur: catPreference.usia,
+                Warna: catPreference.warna,
+                Status_Vaksinasi: catPreference.vaksinasi
+            };
+
+            // Call the recommender system API to get recommended cat clusters
+            request.post({
+                url: 'http://127.0.0.1:8000/predict_cat',
+                json: requestDataCat
+            }, (err, response, body) => {
                 if (err) {
-                    console.error('Error fetching cat preference data:', err);
-                    return res.status(500).send('Error fetching cat preference data');
+                    console.error('Error calling recommender system for cats:', err);
+                    return res.status(500).send('Error calling recommender system for cats');
                 }
 
-                console.log('Cat preference data fetched:', catPreferenceResult);
+                if (response.statusCode === 200) {
+                    // Handle both cases: single cluster or multiple clusters recommended
+                    const recommendedCatClustersCat = Array.isArray(body.recommended_cat_clusters)
+                        ? body.recommended_cat_clusters
+                        : [body.recommended_cat_clusters];
 
-                // If cat preferences exist
-                if (catPreferenceResult.length > 0) {
-                    const catPreference = catPreferenceResult[0];
+                    // Generate placeholders for recommended cat clusters in SQL query
+                    const placeholdersCat = recommendedCatClustersCat.map(() => '?').join(',');
+                    const queryCat = `
+                        SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing, ClusterKucing
+                        FROM cats
+                        WHERE ClusterKucing IN (${placeholdersCat})
+                    `;
 
-                    // Prepare request data for the recommender system
-                    const requestDataCat = {
-                        Jenis_Kelamin: catPreference.jenis_kelamin,
-                        Umur: catPreference.usia,
-                        Warna: catPreference.warna,
-                        Status_Vaksinasi: catPreference.vaksinasi
-                    };
+                    // Fetch cats based on recommended clusters from the database
+                    pool.query(queryCat, recommendedCatClustersCat, (errCat, catResultsCat) => {
+                        if (errCat) {
+                            console.error('Error fetching recommended cats:', errCat);
+                            return res.status(500).send('Error fetching recommended cats');
+                        }
 
-                    // Call the recommender system API to get recommended cat clusters
-                    new Promise((resolve, reject) => {
-                        request.post({
-                            url: 'http://127.0.0.1:8000/predict_cat',
-                            json: requestDataCat
-                        }, (err, response, body) => {
-                            if (err) {
-                                console.error('Error calling recommender system for cats:', err);
-                                return reject('Error calling recommender system for cats');
-                            }
-
-                            if (response.statusCode === 200) {
-                                // Handle both cases: single cluster or multiple clusters recommended
-                                const recommendedCatClustersCat = Array.isArray(body.recommended_cat_clusters)
-                                    ? body.recommended_cat_clusters
-                                    : [body.recommended_cat_clusters];
-
-                                resolve(recommendedCatClustersCat);
-                            } else {
-                                reject(`Error fetching recommendations for cats: ${response.statusCode}`);
-                            }
-                        });
-                    })
-                    .then(recommendedCatClustersCat => {
-                        // Generate placeholders for recommended cat clusters in SQL query
-                        const placeholdersCat = recommendedCatClustersCat.map(() => '?').join(',');
-                        const queryCat = `SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing, ClusterKucing FROM cats WHERE ClusterKucing IN (${placeholdersCat})`;
-
-                        // Fetch cats based on recommended clusters from the database
-                        pool.query(queryCat, recommendedCatClustersCat, (errCat, catResultsCat) => {
-                            if (errCat) {
-                                console.error('Error fetching recommended cats for cats:', errCat);
-                                return res.status(500).send('Error fetching recommended cats for cats');
-                            }
-
-                            // Send the fetched cat results as JSON response
-                            res.json(catResultsCat);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        res.status(500).send('Error fetching recommendations');
+                        // Send the fetched cat results as JSON response
+                        res.json(catResultsCat);
                     });
                 } else {
-                    // If cat preferences are not found
-                    res.status(404).send('Cat preference data not found');
+                    res.status(500).send(`Error fetching recommendations for cats: ${response.statusCode}`);
                 }
             });
         } else {
-            // If user data is not found
-            res.status(404).send('User data not found');
+            res.status(404).send('Cat preference data not found');
         }
     });
 });
