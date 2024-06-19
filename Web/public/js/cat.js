@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const catLocation = document.getElementById('cat-location');
     const catColor = document.getElementById('cat-color');
     const catVaccineStatus = document.getElementById('cat-vaccine-status');
+    const catType = document.getElementById('cat-type');
     const overlayContent = document.querySelector('.overlay-content');
     const userPrefBtn = document.getElementById('user-pref-btn');
     const catPrefBtn = document.getElementById('cat-pref-btn');
@@ -46,10 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const catCard = document.createElement('div');
         catCard.classList.add('cat-card');
         catCard.innerHTML = `
-            <img src="${cat.FotoKucing}" alt="Cat Image" id="cat-card-image-${cat.id}">
-            <h3><strong>${cat.nama_kucing}</strong></h3>
-            <p>Jenis Kelamin: ${cat.jenis_kelamin}</p>
-        `;
+    <img src="${cat.FotoKucing}" alt="Cat Image" id="cat-card-image-${cat.id}">
+    <h2><strong>${cat.nama_kucing}</strong></h2>
+    <p>
+    <strong>Jenis Kelamin:</strong> ${cat.jenis_kelamin} 
+    <strong>Ras Kucing:</strong> ${cat.rasKucing}
+    </p>
+`;
+
 
         catCard.addEventListener('click', () => {
             selectedCatId = cat.id; // Set the selected cat ID
@@ -57,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             catImage.src = cat.FotoKucing;
             catName.innerText = cat.nama_kucing;
             catGender.innerText = cat.jenis_kelamin;
+            catType.innerText = cat.rasKucing || ' ';
             catAge.innerText = cat.umur;
             catLocation.innerText = cat.lokasi;
             catColor.innerText = cat.warna;

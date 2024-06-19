@@ -274,7 +274,10 @@ app.get('/result/user', requireLogin, (req, res) => {
                     })
                     .then(recommendedCatClustersUser => {
                         const placeholdersUser = recommendedCatClustersUser.map(() => '?').join(',');
-                        const queryUser = `SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing, ClusterKucing FROM cats WHERE ClusterKucing IN (${placeholdersUser})`;
+                        const queryUser = `
+                        SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing, ClusterKucing, rasKucing 
+                        FROM cats 
+                        WHERE ClusterKucing IN (${placeholdersUser})`;
 
                         pool.query(queryUser, recommendedCatClustersUser, (errUser, catResultsUser) => {
                             if (errUser) {
@@ -354,7 +357,7 @@ app.get('/result/cat', requireLogin, (req, res) => {
                     // Generate placeholders for recommended cat clusters in SQL query
                     const placeholdersCat = recommendedCatClustersCat.map(() => '?').join(',');
                     const queryCat = `
-                        SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing, ClusterKucing
+                        SELECT id, nama_kucing, jenis_kelamin, umur, warna, lokasi, status_vaksinasi, FotoKucing, ClusterKucing, rasKucing
                         FROM cats
                         WHERE ClusterKucing IN (${placeholdersCat})
                     `;
