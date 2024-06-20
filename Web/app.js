@@ -408,7 +408,7 @@ app.get('/cat-image/:id', (req, res) => {
 app.post('/submit-rating', (req, res) => {
     const { user_id, cat_id, ClusterKucing, Rating } = req.body;
 
-    if (!user_id || !cat_id || !ClusterKucing || !Rating) {
+    if (!user_id==null || !cat_id==null || !ClusterKucing==null || !Rating==null) {
         return res.status(400).send('Bad Request: Missing required fields');
     }
 
